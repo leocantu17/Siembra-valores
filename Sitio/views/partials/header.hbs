@@ -1,110 +1,52 @@
-<header>     
-        <div class="header-container">
-        
-          <a href="/" style="text-decoration: none;"><div style="text-decoration: none;" class="logo" id="animate-charter">GameCave</div></a> 
-      <ul class="navigation">
-      
-
-            {{!-- Categorias inicio --}}
-    <div class="bod">
-      <ul>
-        <li><i class="fas fa-arrow-alt-circle-right"></i> Consolas
-          <ul>
-            <li><a class="filtro" data-filtro="Xbox" data-filtro-p="consola" >Xbox</a></li>
-            <li><a class="filtro" data-filtro="Nintendo" data-filtro-p="consola" >Nintendo</a></li>
-            <li><a class="filtro" data-filtro="Playstation" data-filtro-p="consola" >PlayStation</a></li>
-          </ul>
+<nav>
+    <ul>
+        <div class="logo">
+            <li>
+            <img src="/img/logo.svg" alt="logo">
         </li>
-      </ul>
-    </div>
-    <div class="bod">
-      <ul>
-        <li><i class="fas fa-arrow-alt-circle-right"></i> Accesorios
-          <ul>
-            <li><a class="filtro" data-filtro="Todos" data-filtro-p="Accesorio" >Todos</a></li>
-             <li><a class="filtro" data-filtro="Xbox" data-filtro-p="Accesorio">Xbox</a></li>
-            <li><a class="filtro" data-filtro="Nintendo" data-filtro-p="Accesorio" >Nintendo</a></li>
-            <li><a class="filtro" data-filtro="Playstation" data-filtro-p="Accesorio" >PlayStation</a></li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-    <div class="bod">
-      <ul>
-        <li><i class="fas fa-arrow-alt-circle-right"></i> Videojuegos
-          <ul>
-            <li><a class="filtro" data-filtro="Todos" data-filtro-p="videojuegos">Todos</a></li>
-            <li><a class="filtro" data-filtro="Xbox" data-filtro-p="videojuegos" >Xbox</a></li>
-            <li><a class="filtro" data-filtro="Nintendo" data-filtro-p="videojuegos" >Nintendo</a></li>
-            <li><a class="filtro" data-filtro="Playstation" data-filtro-p="videojuegos" >PlayStation</a></li>
-            <li><a class="filtro" data-filtro="terror" data-filtro-p="videojuegos" >Terror</a></li>
-            <li><a class="filtro" data-filtro="accion" data-filtro-p="videojuegos">Accion</a></li>
-            <li><a class="filtro" data-filtro="aventura" data-filtro-p="videojuegos" >Aventura</a></li>
-            <li><a class="filtro" data-filtro="fantasia" data-filtro-p="videojuegos" >Fantasia</a></li>
-          </ul>
-        </li>
-      </ul>
-      <ul>
-        <li><a href="/catalogo-productos"><i class="fas fa-arrow-alt-circle-right"></i>Todos los productos</a></li>
-      </ul>
-    </div>
-      {{!-- Categorias Fin --}}
-
-        
-      </ul>
-
-      {{!-- Comienza la barra de busqueda 
-      <div class="con">
-        <div class="searchInput">
-        <input type="text" id="buscar" placeholder="Buscar..." name="buscar" autocomplete="off"/>
-
-         <div id="sugerencias" class="resultBox"></div>
-
-         </div>
-         </div> --}}
-      <div class="search-container">
-            <input type="text" id="buscar" placeholder="Buscar..." autocomplete="off">
-            <button id="search-button"><img src="/img/search-icon.jpg" alt="Buscar"></button>
-        <div id="sugerencias">
-        </div>
-    </div>
-      {{!-- Termeina la barra de busqueda --}}
-
-      {{!-- Comienza Carrito --}}
-
-       <div  class="icon-cart" style="float: left"><a href="/carrito">
-       {{#if usuario}}
-       {{#if (eq CANTIDAD_PRODUCTOS_CARRITO 0)}}
-       {{else}}
-       <div>
-          <span id="cart-count">{{CANTIDAD_PRODUCTOS_CARRITO}}</span>
-       </div>
-       {{/if}}
-       {{else}}
-        
-       {{/if}}
-    <div class="cart-line-1" style="background-color: #ff6600"></div>
-    <div class="cart-line-2" style="background-color: #ff6600"></div>
-    <div class="cart-line-3" style="background-color: #ff6600"></div>
-    <div class="cart-wheel" style="background-color: #ff6600"></div>
-    </a>
-  </div>
-
-    {{#if usuario}}
-      <li ><a href="/mi-cuenta">Mi cuenta</a></li>
-      <li><a href="/cerrar-sesion">Cerrar sesión</a></li>
-    {{else}}
-      <li><a href="/iniciar-sesion">Iniciar Sesión</a></li>
-      <li><a href="/crear-sesion">Crear Cuenta</a></li>
-  {{/if}}
-
-
-    {{!-- Acaba Carrito --}}
-
-      </input>
-      <div id="search-results"></div>
-    </nav>
         </div>
         
-    </header>
-    
+        <li>
+            <a href="/Estadisticas" class="nav-a">
+                <i class="fas fa-chart-bar"></i>
+                <span class="nav-item">Estadisticas</span>
+            </a>
+        </li>
+        <li>
+            <a href="/Alumnos" class="nav-a">
+            <i class="fas fa-user-graduate"></i>
+                <span class="nav-item">Alumnos</span>
+            </a>
+        </li>
+         <li>
+            <a href="/Escuelas" class="nav-a">
+            <i class="fas fa-school"></i>
+                <span class="nav-item">Escuelas</span>
+            </a>
+        </li>
+         <li>
+            <a href="/Colonias" class="nav-a">
+            <i class="fas fa-city"></i>
+                <span class="nav-item">Colonias</span>
+            </a>
+        </li>
+         <li>
+            <a href="/Arboles" class="nav-a">
+            <i class="fas fa-tree"></i>
+                <span class="nav-item">Árboles</span>
+            </a>
+        </li>
+        <li>
+            <a href="/mi-cuenta" class="nav-a">
+            <i class="fas fa-user-circle"></i>
+            <span class="nav-item">Mi cuenta</span>
+            </a>
+        </li>
+            <a class="logout nav-a" href="/cerrar-sesion">
+                <i class="fas fa-sign-out-alt"></i>
+                <span class="nav-item">Cerrar sesion</span>
+            </a>
+
+        </li>
+    </ul>
+</nav>

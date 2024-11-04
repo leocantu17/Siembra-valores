@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+{{#if (eq 'alumnos' lugar)}}
+               <title>Alumnos</title>
+            {{else}}
+                {{#if (eq 'escuelas' lugar)}}
+                  <title>Escuelas</title>
+                {{else}}
+                    {{#if (eq 'colonias' lugar)}}
+                      <title>Colonias</title>
+                    {{else}}
+                        <title>Árboles</title>
+                    {{/if}}
+                {{/if}}
+            {{/if}}
+    <link rel="stylesheet" href="../css/styles.css" />
+       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+     {{> header}}
+        <div class="main-container">
+    <div class="sidebar">
+    {{!-- {{>botones_admin}} --}}
+     </div>
+    <div class="content">
+<div class="search-container">
+    <input type="text" id="txtBuscador" placeholder="Buscar en la tabla..." autocomplete="off">
+    <div class="select-container">
+
+    <select id="f_fec">
+      <option value="">Filtro de fecha</option>
+        <option value="1">Ultimos 7 dias</option>
+        <option value="2">Ultimo mes</option>
+        <option value="3">Ultimo año</option>
+    </select>
+    <select id="cantidad">
+      <option value="">Datos por página</option>
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="30">50</option>
+    </select>
+    <select id="f_est">
+      <option value="2">Filtro de estado</option>
+      <option value="1">Inactivo</option>
+      <option value="2">Activo</option>
+    </select>
+    </div>
+</div>
+    <div id="section2">
+      
+          <div class="btnDerecha">
+
+             {{#if (eq 'Alumnos' lugar)}}
+                      <button class="btnCMS" id="descargarBtn">Reporte alumnos</button>
+            <a href="/agregar-alumnos"><button class="btnCMS">Agregar nuevo
+                </button></a>
+            {{else}}
+                {{#if (eq 'escuelas' lugar)}}
+                    <a href="/agregar-escuelas"><button class="btnCMS">Agregar nuevo</button></a>
+                </button></a>
+                {{else}}
+                    {{#if (eq 'colonias' lugar)}}
+                        <a href="/agregar-colonias"><button class="btnCMS">Agregar nuevo</button></a>
+                    {{else}}
+                        <a href="/agregar-arboles"><button class="btnCMS">Agregar nuevo</button></a>
+                      
+                    {{/if}}
+                {{/if}}
+            {{/if}}
+            
+          </div>
+          <div id="divTabla">
+            {{#if (eq 'alumnos' lugar)}}
+                {{>alumnos}}
+            {{else}}
+                {{#if (eq 'escuelas' lugar)}}
+                  {{>escuelas}}
+                {{else}}
+                    {{#if (eq 'colonias' lugar)}}
+                      {{>colonias}}
+                    {{else}}
+                        {{>arboles}}
+                    {{/if}}
+                {{/if}}
+            {{/if}}
+          </div>
+          <script src="../js/peticiones.js"></script>
+</body>
+</html>

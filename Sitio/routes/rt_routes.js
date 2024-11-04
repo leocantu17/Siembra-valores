@@ -1,12 +1,4 @@
-const express = require('express')
-const router = express.Router()
+const { Router } = require ( 'express' );
+const router = Router();
 
-
-router.use(require('./rt_routes'))
-
-
-router.use(require('./rt_views'));
-
-
-
-module.exports = router;
+module.exports = router

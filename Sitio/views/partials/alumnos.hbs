@@ -1,0 +1,48 @@
+    <table id="miTabla" class="tablasCMS">
+            {{!-- <thead> --}}
+              <tr>
+                {{{columnas lugar}}}
+              </tr>
+            </thead>
+            <tbody>
+              {{#each prueba}}
+                <tr id="blanco" id="activo" class="heading">
+                <td>{{ID_US}}</td>
+                <td>{{NOMBRE_COMP}}</td>
+                <td>{{CORREO}}</td>
+                <td>{{FECHA_REGISTRO}}</td>
+                <td>{{NOMBRE}}</td>
+                {{#if ACTIVO }}
+                <td>Activo</td>
+                {{else}}
+                <td>Inactivo</td>
+                {{/if}}
+              </tr>
+              {{/each}}
+            </tbody>
+          </table>
+
+<div class="pagination-container">
+
+       <div class="pagination">
+        {{#each paginas}}
+        {{#if (eq @index 0)}}
+        <button class="prev" onclick="paginador({{ant}})">Anterior</button>
+        <ul>
+        {{/if}}
+        {{#if (eq act pag)}}
+            <li class="active" onclick="paginador({{pag}})">{{pag}}</li>
+        {{else}}
+            <li onclick="paginador({{pag}})">{{pag}}</li>
+        {{/if}}
+        {{#if (eq ../paginas.length pag)}}
+        </ul>
+        <button class="next
+        " onclick="paginador({{sig}})">Siguiente</button>
+        {{/if}}
+        {{/each}}
+    </div>
+</div>
+        </div>
+        </div>
+</div>
