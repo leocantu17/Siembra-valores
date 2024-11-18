@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte de Alumnos</title>
+    <link rel="stylesheet" href="../css/formulario.css"> <!-- Verifica que la ruta sea correcta -->
+</head>
+<body>
+<div class="formulario-container">
+    <h1>SIEMBRA VALORES</h1>
+    <h2>Reporte de Alumnos</h2>
+        {{#if resultado}}
+        <!-- Sección superior de reporte -->
+        {{#each resultado}}
+        <div class="form-row">
+            <label for="fecha-reporte">Fecha del Reporte:</label>
+            <label id="fecha-reporte">{{FECHA}}</label> <!-- Etiqueta de fecha del reporte -->
+        </div>
+        
+        <div class="form-row">
+            <label for="progreso">Progreso:</label>
+            <label id="progreso">{{Progreso}}</label> <!-- Etiqueta de progreso -->
+            <label for="altura">Altura:</label>
+            <label id="altura">{{Altura}}</label> <!-- Etiqueta de altura -->
+        </div>
+
+        <div class="form-row">
+            <label for="nombre-cientifico">Nombre científico:</label>
+            <label id="nombre-cientifico">{{NOMBRE_CIENTIFICO}}</label> <!-- Etiqueta de nombre cientifico -->
+            <label for="circunferencia">Circunferencia:</label>
+            <label id="circunferencia">{{Circunferencia}}</label> <!-- Etiqueta de circunferencia -->
+        </div>
+
+        <!-- Línea divisoria -->
+        <hr>
+
+        <div class="form-row">
+            <label for="nombre">Nombre:</label>
+            <label id="nombre">{{NOMBRE_USUARIO}}</label> <!-- Etiqueta de nombre -->
+        </div>
+
+        <div class="form-row">
+            <label for="apellido-paterno">Apellido Paterno:</label>
+            <label id="apellido-paterno">{{APELLIDO_PATERNO}}</label> <!-- Etiqueta de apellido paterno -->
+        </div>
+
+        <div class="form-row">
+            <label for="apellido-materno">Apellido Materno:</label>
+            <label id="apellido-materno">{{APELLIDO_MATERNO}}</label> <!-- Etiqueta de apellido materno -->
+        </div>
+
+        <div class="form-row">
+            <label for="colonia">Colonia:</label>
+            <label id="colonia">{{NOMBRE_COLONIA}}</label> <!-- Etiqueta de colonia -->
+        </div>
+
+        <!-- Imagen del árbol con clase para ajustar tamaño -->
+        <div class="form-row imagen-arbol-container">
+            <img src="img/logo.svg"  class="imagen-arbol">
+        </div>
+        {{/each}}
+        {{else}}
+            <h3>No hay datos para el árbol seleccionado</h3>
+        {{/if}}
+</div>
+</body>
+</html>

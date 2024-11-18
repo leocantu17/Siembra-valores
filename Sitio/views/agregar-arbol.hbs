@@ -1,0 +1,72 @@
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agregar Árbol</title>
+    <link rel="stylesheet" href="../css/formulario.css" />
+  </head>
+  <body>
+    <div class="formulario-container">
+      <h1>SIEMBRA VALORES</h1>
+      <h2>Agregar Árbol</h2>
+
+      <form id="form-arbol">
+        <!-- Primera sección -->
+        <div class="form-row">
+          <label for="nombre-cientifico">Nombre Científico:</label>
+          <input type="text" id="nombre-cientifico" name="nombre-cientifico" />
+        </div>
+
+        <div class="form-row">
+          <label for="fecha-plantado">Fecha de plantado:</label>
+          <input type="date" id="fecha-plantado" name="fecha-plantado" />
+        </div>
+
+        <div class="form-row">
+          <label for="endemico">Endémico:</label>
+          <select id="endemico" name="endemico">
+            <option value="1">Sí</option>
+            <option value="0">No</option>
+          </select>
+        </div>
+    
+        <div class="form-row">
+          <label for="colonia">Colonia:</label>
+          <select id="colonia" name="colonia">
+            {{#each colonias}}
+              <option value="{{ID_COL}}">{{NOMBRE}}</option>
+            {{/each}}
+          </select>
+        </div>
+
+        <hr />
+        <!-- Separador entre secciones -->
+
+        <!-- Segunda sección para los cuidados -->
+        <h3>Cuidados</h3>
+        <div class="cuidados">
+          <div class="cuidado-item">
+            <button type="button" class="toggle-cuidado">Cuidados 1</button>
+            <div class="form-row cuidado-content">
+              <label for="nombre-cuidado">Nombre:</label>
+              <input type="text" id="nombre-cuidado" name="nombre-cuidado" />
+            </div>
+            <div class="form-row cuidado-content">
+              <label for="descripcion">Descripción:</label>
+              <input type="text" id="descripcion" name="descripcion" />
+            </div>
+            <div class="form-row cuidado-content">
+              <label for="frecuencia">Frecuencia:</label>
+              <input type="text" id="frecuencia" name="frecuencia" />
+            </div>
+          </div>
+        </div>
+       
+        <button type="button" id="btn-agregar-cuidado">Agregar</button>
+        <p id="mensaje-error" style="color: red; display: none;">No puedes agregar más de 5 cuidados.</p>
+        <button type="button" id="btn-agregar-arbol">Agregar árbol</button>
+      </form>
+    </div>
+    <script src="../js/agregar-arbol.js"></script>
+  </body>
+</html>

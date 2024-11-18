@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Escuela</title>
+    <link rel="stylesheet" href="../css/formulario.css"> <!-- Verifica que la ruta sea correcta -->
+</head>
+<body>
+<div class="formulario-container">
+    <h1>SIEMBRA VALORES</h1>
+    <h2>AGREGAR ESCUELA</h2>
+
+    <form>
+        <label for="nombre-escuela">Nombre de la Escuela:</label>
+        <input type="text" id="nombre-escuela" name="nombre-escuela">
+
+        <label for="direccion">Dirección:</label>
+        <input type="text" id="direccion" name="direccion">
+
+        <label for="nivel-educacion">Nivel de Educación:</label>
+        <select id="nivel-educacion" name="nivel-educacion">
+            <option value="primaria">Primaria</option>
+            <option value="secundaria">Secundaria</option>
+        </select>
+
+        <label for="numero-arboles">Número de árboles:</label>
+        <input type="text" id="numero-arboles" name="numero-arboles">
+
+        <label for="encargado">Encargado:</label>
+        <input type="text" id="encargado" name="encargado">
+
+        <label for="colonia">COLONIA:</label>
+        <select id="colonia" name="colonia">
+            {{#each colonias}}
+            <option value="{{ID_COL}}">{{NOMBRE}}</option>
+            {{/each}}
+        </select>
+
+        <button type="button" id="btn-agregar-escuela">Agregar</button>
+    </form>
+</div>
+<script src="../js/agregar-escuela.js"></script>
+</body>
+</html>

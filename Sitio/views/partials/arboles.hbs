@@ -17,6 +17,8 @@
                 {{else}}
                 <td>Inactivo</td>
                 {{/if}}
+                <td><button class="btnCMS" onclick="eliminar({{ID_ARBOL}})">Eliminar</button></td>
+                <td><a href="/reporte-arbol?id={{ID_ARBOL}}"><button class="btnCMS">Reporte</button></a></td>
               </tr>
               {{/each}}
             </tbody>

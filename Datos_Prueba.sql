@@ -7,10 +7,10 @@ INSERT INTO COLONIA (NOMBRE, CIUDAD, COD_POSTAL, FECHA_REGISTRO, META, MINIMO_AR
 ('Colonia del Sol', 'La Serena', '1700000', GETDATE(), 400, 20);
 
 INSERT INTO USUARIO (FECHA_REGISTRO, NOMBRE, AP_P, AP_M, CORREO, CELULAR, FECHA_NAC, CONTRASENA, ACTIVO, ID_COL) VALUES
-(GETDATE(), 'Juan', 'Pérez', 'González', 'juan.perez@example.com', '987654321', '2010-05-01', 'pass123', 1, 1),
-(GETDATE(), 'Ana', 'López', 'Martínez', 'ana.lopez@example.com', '912345678', '2011-06-12', 'pass456', 1, 2),
-(GETDATE(), 'Pedro', 'Gómez', 'Ramírez', 'pedro.gomez@example.com', '934567890', '2009-07-22', 'pass789', 1, 3),
-(GETDATE(), 'Lucía', 'Fernández', 'Soto', 'lucia.fernandez@example.com', '945678901', '2012-08-30', 'pass000', 1, 4);
+(GETDATE(), 'Juan', 'Pérez', 'González', 'juan.perez@example.com', '987654321', '2010-05-01', 'pass123', 1, 5),
+(GETDATE(), 'Ana', 'López', 'Martínez', 'ana.lopez@example.com', '912345678', '2011-06-12', 'pass456', 1, 6),
+(GETDATE(), 'Pedro', 'Gómez', 'Ramírez', 'pedro.gomez@example.com', '934567890', '2009-07-22', 'pass789', 1, 7),
+(GETDATE(), 'Lucía', 'Fernández', 'Soto', 'lucia.fernandez@example.com', '945678901', '2012-08-30', 'pass000', 1, 8);
 
 INSERT INTO USUARIO (FECHA_REGISTRO, NOMBRE, AP_P, AP_M, CORREO, CELULAR, FECHA_NAC, CONTRASENA, ACTIVO, ID_COL) VALUES
 (GETDATE(), 'Juan', 'Pérez', 'González', 'juan.perez@example.com', '987654321', '2010-05-01', 'pass123', 1, 1),
@@ -31,34 +31,28 @@ INSERT INTO VALORES (VALOR) VALUES
 ('Crítico');
 
 INSERT INTO ARBOL (NOMBRE_CIENTIFICO, FECHA_PLANTADO, ENDEMICO, ID_VALOR, ID_CUIDADOS, ID_COL, FECHA_REGISTRO) VALUES
-('Quillay', '2022-01-15', 1, 1, 1, 1, GETDATE()),
-('Pino Oregón', '2021-03-22', 0, 2, 2, 2, GETDATE()),
-('Ciprés de la cordillera', '2020-06-10', 1, 3, 3, 3, GETDATE()),
-('Eucalipto', '2023-09-01', 0, 4, 4, 4, GETDATE());
+('Quillay', '2022-01-15', 1, 1, 5, 6, GETDATE()),
+('Pino Oregón', '2021-03-22', 0, 2, 5, 7, GETDATE()),
+('Ciprés de la cordillera', '2020-06-10', 1, 3, 5, 8, GETDATE())
 
 INSERT INTO ADMINISTRADOR (ID_US, ARBOLES_ASIGNADOS, ULTIMA_CONEXION, NIVEL) VALUES
-(1, 10, GETDATE(), 'Supervisor'),
-(2, 5, GETDATE(), 'Coordinador'),
-(3, 20, GETDATE(), 'Director'),
-(4, 15, GETDATE(), 'Gerente');
-
+(19, 15, GETDATE(), 'Supervisor')
 INSERT INTO ESCUELA (NOMBRE, DIRECCION, NIVEL_EDUCATIVO, NUMERO_ARBOLES, ENCARGADO, FECHA_REGISTRO, ID_COL) VALUES
-('Escuela Primaria A', 'Av. Libertador 123', 'Primaria', 10, 'Carlos Torres', GETDATE(), 1),
-('Escuela Secundaria B', 'Calle 45 456', 'Secundaria', 20, 'María García', GETDATE(), 2),
-('Escuela Técnica C', 'Calle 89 789', 'Técnico', 15, 'José Martínez', GETDATE(), 3),
-('Escuela Integral D', 'Calle 100 321', 'Integral', 12, 'Lucía Torres', GETDATE(), 4);
+('Escuela Primaria A', 'Av. Libertador 123', 'Primaria', 10, 'Carlos Torres', GETDATE(), 5),
+('Escuela Secundaria B', 'Calle 45 456', 'Secundaria', 20, 'María García', GETDATE(), 6),
+('Escuela Técnica C', 'Calle 89 789', 'Técnico', 15, 'José Martínez', GETDATE(), 7),
+('Escuela Integral D', 'Calle 100 321', 'Integral', 12, 'Lucía Torres', GETDATE(), 8);
 
 INSERT INTO ALUMNO (ID_US, PUNTOS, ID_ESCUELA) VALUES
-(1, 50, 1),
-(2, 75, 2),
-(3, 100, 3),
-(4, 80, 4);
+(11, 50, 6),
+(12, 75, 7),
+(13, 100, 8),
+(14, 80, 9);
 
 INSERT INTO ADOPTA (ID_US, ID_ARBOL, FECHA_ADOPCION_INICIO, FECHA_ADOPCION_FIN, ALTURA, CIRCUNFERENCIA) VALUES
-(1, 1, GETDATE(), DATEADD(YEAR, 1, GETDATE()), 1.2, 30),
-(2, 2, GETDATE(), DATEADD(YEAR, 1, GETDATE()), 1.5, 25),
-(3, 3, GETDATE(), DATEADD(YEAR, 1, GETDATE()), 0.8, 20),
-(4, 4, GETDATE(), DATEADD(YEAR, 1, GETDATE()), 1.1, 35);
+(11, 8, GETDATE(), DATEADD(YEAR, 1, GETDATE()), 1.2, 30),
+(12, 9, GETDATE(), DATEADD(YEAR, 1, GETDATE()), 1.5, 25),
+(13, 10, GETDATE(), DATEADD(YEAR, 1, GETDATE()), 0.8, 20)
 
 INSERT INTO REPORTES (FECHA, PROGRESO, ID_ARBOL) VALUES
 (GETDATE(), 'Primer riego realizado', 1),

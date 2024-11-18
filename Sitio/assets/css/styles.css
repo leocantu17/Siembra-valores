@@ -221,3 +221,65 @@ nav{
   background-color: #ffffff;
   color: #000000;
 }
+
+/*Fausto*/
+/* Fondo general */
+.login {
+  background-color: #228B22;
+  font-family: 'Jorsey 10', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+}
+
+/* Contenedor principal de login sin fondo */
+.login-container {
+  text-align: center;
+  width: 100%;
+  max-width: 320px;
+}
+
+/* Logo en SVG */
+.logo-inicio {
+  width: 100px;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+/* Título */
+h1 {
+  font-size: 36px;
+  color: #FFFFFF;
+  margin-bottom: 20px;
+}
+
+/* Formulario de inicio de sesión */
+.login-form input {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  text-align: center;
+}
+
+/* Botón de acceder */
+.login-form button {
+  width: 100%;
+  padding: 10px;
+  background-color: #D03F42;
+  color: #ffffff;
+  border: none;
+  border-radius: 15px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.login-form button:hover {
+  background-color: #b03537;
+}

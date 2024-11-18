@@ -54,8 +54,7 @@
       
           <div class="btnDerecha">
 
-             {{#if (eq 'Alumnos' lugar)}}
-                      <button class="btnCMS" id="descargarBtn">Reporte alumnos</button>
+             {{#if (eq 'alumnos' lugar)}}
             <a href="/agregar-alumnos"><button class="btnCMS">Agregar nuevo
                 </button></a>
             {{else}}
@@ -88,6 +87,19 @@
                 {{/if}}
             {{/if}}
           </div>
+           {{#if (eq 'alumnos' lugar)}}
+           <script src="../js/alumno.js"></script>
+            {{else}}
+                {{#if (eq 'escuelas' lugar)}}
+                <script src="../js/escuela.js"></script>
+                {{else}}
+                    {{#if (eq 'colonias' lugar)}}
+                    <script src="../js/colonia.js"></script>
+                    {{else}}
+                      <script src="../js/arboles.js"></script>
+                    {{/if}}
+                {{/if}}
+            {{/if}}
           <script src="../js/peticiones.js"></script>
 </body>
 </html>

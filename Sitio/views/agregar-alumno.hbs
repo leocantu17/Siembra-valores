@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Alumno</title>
+    <link rel="stylesheet" href="../css/formulario.css"> <!-- Verifica que la ruta sea correcta -->
+</head>
+<body>
+<div class="formulario-container">
+    <h1>SIEMBRA VALORES</h1>
+    <h2>AGREGAR ALUMNO</h2>
+
+    <form>
+        <div class="form-row">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre">
+
+            <label for="apellido-paterno">Apellido paterno:</label>
+            <input type="text" id="apellido-paterno" name="apellido-paterno">
+        </div>
+
+        <div class="form-row">
+            <label for="apellido-materno">Apellido materno:</label>
+            <input type="text" id="apellido-materno" name="apellido-materno">
+
+            <label for="fecha-nacimiento">Fecha de nacimiento:</label>
+            <input type="date" id="fecha-nacimiento" name="fecha-nacimiento">
+        </div>
+
+        <div class="form-row">
+            <label for="correo">Correo:</label>
+            <input type="email" id="correo" name="correo">
+        </div>
+
+        <div class="form-row">
+            <label for="contrasena">Contraseña:</label>
+            <input type="password" id="contrasena" name="contrasena">
+
+            <label for="celular">Celular:</label>
+            <input type="text" id="celular" name="celular">
+        </div>
+
+        <div class="form-row">
+            <label for="colonia">Colonia:</label>
+            <select id="colonia" name="colonia" required>
+                {{#each colonias}}
+                <option value="{{ID_COL}}">{{NOMBRE}}</option>
+            {{/each}}
+            </select>
+            
+            
+
+            <label for="escuela">Escuela:</label>
+            <select id="escuela" name="escuela" required>
+                {{#each escuelas}}
+
+                <option value="{{ID_ESCUELA}}">{{NOMBRE}}</option>
+            {{/each}}
+            </select>
+            
+        </div>
+
+        <button type="button" id="btn-agregar-alumno">Agregar</button>
+    </form>
+</div>
+<script src="../js/agregar-alumno.js"></script>
+</body>
+</html>
