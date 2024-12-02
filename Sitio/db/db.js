@@ -175,6 +175,18 @@ const alumno={
    },
  }
 
+ const app_movil={
+  pruebaApp:async()=>{
+    try {
+      const resultado=await sqlConn.request()
+      .query(`SELECT ID_US AS id,NOMBRE as nombre FROM USUARIO`)
+      return objetoResultadoSQL(resultado)
+    } catch (error) {
+      throw error
+    }
+  }
+ }
+
  const escuela={
    eliminar:async(datos)=>{
      try {
@@ -239,4 +251,4 @@ const alumno={
    },
  }
 
-module.exports={prueba,usuario,alumno,arbol,colonia,escuela,cuidados,notificaciones}
+module.exports={prueba,usuario,alumno,arbol,colonia,escuela,cuidados,notificaciones,app_movil}

@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">Siembra valores</string>
+    <string name="inicio">Inicio</string>
+    <string name="login">Iniciar sesión</string>
+    <string name="Adoptar">Adoptar árbol</string>
+    <string name="back">Regresar</string>
+    <string name="registro">Iniciar sesión</string>
+    <string name="correo">Correo</string>
+    <string name="contrasena">Contraseña</string>
+    <string name="enviar">Iniciar</string>
+    <string name="misArboles">Árboles</string>
+    <string name="historial">Historial</string>
+    <string name="agregarServicio">Agregar servicio</string>
+    <string name="perfil">Perfil</string>
+    <string name="misiones">Misiones</string>
+    <string name="notificaciones">Notificaciones</string>
 </resources>

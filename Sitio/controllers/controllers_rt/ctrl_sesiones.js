@@ -5,8 +5,10 @@ const sesiones = {
     iniciarSesion: async (req, res) => {
         try {
             const{correo,contraseña}=req.body
+            console.log(req.query)
+            console.log("llegue")
             if(correo=='' || contraseña==''){
-                return res.json({estatus:"ERR",mensaje:"Llena todos los campos"})
+                return res.json({"estatus":"ERR","mensaje":"Llena todos los campos"})
             }else{
                 const resultado=await usuario.iniciarSesion({correo,contraseña})
                 if(resultado.datos.length>0){

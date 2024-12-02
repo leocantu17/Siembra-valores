@@ -3,6 +3,7 @@ const cmsInicio = require('../controllers/controllers_view/ctrl_inicio');
 const cmsSesiones = require('../controllers/controllers_view/ctrl_sesiones');
 const cmsReporte = require('../controllers/controllers_view/ctrl_reporte');
 const cmsAgregar = require('../controllers/controllers_view/ctrl_agregar');
+const { app_movil } = require('../db/db');
 const router = Router();
 
 router.get('/',cmsSesiones.login)
@@ -24,5 +25,9 @@ router.get('/session', (req,res)=>{
     }catch(error){
         console.log(error)
     }
+})
+router.get("/rt-prueba",async(req,res)=>{
+    const resultado=await app_movil.pruebaApp()
+    res.json(resultado.datos)
 })
 module.exports = router
