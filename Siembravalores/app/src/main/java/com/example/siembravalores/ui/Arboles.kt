@@ -16,16 +16,16 @@ import androidx.compose.ui.unit.sp
 import com.example.siembravalores.R
 
 @Composable
-fun PantallaPrincipal() {
+fun Arboles(onNextButtonClicked: () -> Unit) {
     Column(modifier = Modifier.fillMaxSize()) {
-        Encabezado()
-        ListaDeArboles()
+        Encabezado(onNextButtonClicked)
+        ListaDeArboles(onNextButtonClicked)
         EspacioParaExplorador()
     }
 }
 
 @Composable
-fun Encabezado() {
+fun Encabezado(onNextButtonClicked: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -52,14 +52,14 @@ fun Encabezado() {
             modifier = Modifier.padding(bottom = 8.dp)
         )
 
-        Button(onClick = { /* Acción de adopción */ }) {
+        Button(onClick = onNextButtonClicked) {
             Text(text = "Adoptar")
         }
     }
 }
 
 @Composable
-fun ListaDeArboles() {
+fun ListaDeArboles(onNextButtonClicked: () -> Unit) {
     val arboles = listOf(
         "Árbol 1 - Descripción breve",
         "Árbol 2 - Descripción breve",
@@ -70,7 +70,7 @@ fun ListaDeArboles() {
     )
 
     LazyVerticalGrid(
-        columns = GridCells.Fixed(2), // Dos columnas
+        columns = GridCells.Fixed(2),
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
@@ -78,13 +78,13 @@ fun ListaDeArboles() {
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(arboles) { arbol ->
-            TarjetaDeArbolGrid(arbol)
+            TarjetaDeArbolGrid(arbol,onNextButtonClicked)
         }
     }
 }
 
 @Composable
-fun TarjetaDeArbolGrid(nombre: String) {
+fun TarjetaDeArbolGrid(nombre: String, onNextButtonClicked: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -110,7 +110,7 @@ fun TarjetaDeArbolGrid(nombre: String) {
             )
 
             Button(
-                onClick = { /* Acción para adoptar */ },
+                onClick = onNextButtonClicked,
                 modifier = Modifier.padding(top = 4.dp)
             ) {
                 Text(text = "Adoptar", fontSize = 12.sp)

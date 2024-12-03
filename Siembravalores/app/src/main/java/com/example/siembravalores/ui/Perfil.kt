@@ -24,6 +24,7 @@ fun PerfilScreen() {
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+
         // Espacio para la imagen de perfil
         Spacer(modifier = Modifier.height(16.dp))
 

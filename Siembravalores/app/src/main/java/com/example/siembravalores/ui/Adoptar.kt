@@ -12,10 +12,9 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.siembravalores.R
-import com.example.siembravalores.ui.theme.SiembraValoresTheme
 
 @Composable
-fun PantallaAdopcion(modifier: Modifier = Modifier) {
+fun PantallaAdopcion(modifier: Modifier = Modifier, onNextButtonClicked: () -> Unit) {
     var treeName = TextFieldValue("")
 
     Column(
@@ -93,7 +92,7 @@ fun PantallaAdopcion(modifier: Modifier = Modifier) {
 
         // Botón Adoptar
         Button(
-            onClick = { /* Acción */ },
+            onClick = onNextButtonClicked,
             modifier = Modifier.align(Alignment.CenterHorizontally)
         ) {
             Text("Adoptar")

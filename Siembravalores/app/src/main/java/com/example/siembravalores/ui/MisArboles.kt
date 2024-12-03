@@ -23,7 +23,7 @@ data class Tree(val name: String, val description: String, val scientificName: S
 
 
 @Composable
-fun TreeList(modifier: Modifier = Modifier) {
+fun TreeList(modifier: Modifier = Modifier, onNextButtonClicked: () -> Unit) {
     val trees = listOf(
         Tree("Palo de rosa", "Un árbol tropical con un fuerte olor dulce", "Dalbergia retusa", 10, "20.1234, -99.1234", "Madera fuerte y duradera", "Riego semanal", R.drawable.facebook),
         Tree("Roble", "Árbol grande con hojas resistentes", "Quercus robur", 15, "21.2345, -98.2345", "Madera dura", "Riego mensual", R.drawable.facebook),
@@ -32,13 +32,13 @@ fun TreeList(modifier: Modifier = Modifier) {
 
     LazyColumn(modifier = modifier) {
         items(trees.size) { index ->
-            TreeItem(tree = trees[index])
+            TreeItem(tree = trees[index],onNextButtonClicked)
         }
     }
 }
 
 @Composable
-fun TreeItem(tree: Tree) {
+fun TreeItem(tree: Tree, onNextButtonClicked: () -> Unit) {
     var expanded = remember { mutableStateOf(false) }
 
     Column(
@@ -68,6 +68,11 @@ fun TreeItem(tree: Tree) {
                     fontSize = 16.sp,
                     color = Color.Gray
                 )
+                Button(
+                    onClick = onNextButtonClicked
+                ){
+                    Text(text="Servicio")
+                }
             }
             // Flecha de expansión
             Icon(

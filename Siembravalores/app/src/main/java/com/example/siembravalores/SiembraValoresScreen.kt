@@ -28,15 +28,23 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.siembravalores.ui.AddServiceScreen
+import com.example.siembravalores.ui.Arboles
+import com.example.siembravalores.ui.HistorialServiciosApp
 import com.example.siembravalores.ui.InicioScreen
 import com.example.siembravalores.ui.LoginScreen
+import com.example.siembravalores.ui.MisionesScreen
+import com.example.siembravalores.ui.NotificacionesScreen
+import com.example.siembravalores.ui.PantallaAdopcion
+import com.example.siembravalores.ui.PerfilScreen
 import com.example.siembravalores.ui.SiembraValoresViewModel
+import com.example.siembravalores.ui.TreeList
 
 enum class SiembraValoresScreen(@StringRes val title:Int){
     Inicio(title = R.string.inicio),
     Login(title = R.string.login),
+    Arboles(title = R.string.misArboles),
     Adoptar(title = R.string.Adoptar),
-    Registro(title=R.string.registro),
     misArboles(title=R.string.misArboles),
     historial(title = R.string.historial),
     agregarServicio(title = R.string.agregarServicio),
@@ -155,11 +163,50 @@ fun SiembraValoresApp(
                         navController
                     )
             }
-            composable(route = SiembraValoresScreen.Adoptar.name) {}
-            composable(route = SiembraValoresScreen.misArboles.name) {}
-            composable(route = SiembraValoresScreen.historial.name) {}
-            composable(route = SiembraValoresScreen.perfil.name) {}
-            composable(route = SiembraValoresScreen.notificaciones.name) {}
+            composable(route=SiembraValoresScreen.Arboles.name){
+                Arboles(
+                    onNextButtonClicked={
+                        navController.navigate(SiembraValoresScreen.Adoptar.name)
+                    }
+                )
+            }
+            composable(route = SiembraValoresScreen.Adoptar.name) {
+                PantallaAdopcion(
+                    onNextButtonClicked={
+                        navController.navigate(SiembraValoresScreen.misArboles.name)
+                    }
+                )
+            }
+            composable(route = SiembraValoresScreen.misArboles.name) {
+                TreeList(
+                    onNextButtonClicked={
+                        navController.navigate(SiembraValoresScreen.agregarServicio.name)
+                    }
+                )
+            }
+            composable(route=SiembraValoresScreen.agregarServicio.name){
+                AddServiceScreen(
+                    onNextButtonClicked={
+                        navController.navigate(SiembraValoresScreen.historial.name)
+                    }
+                )
+            }
+            composable(route = SiembraValoresScreen.historial.name) {
+                HistorialServiciosApp(
+                    onNextButtonClicked={
+                        navController
+                    }
+                )
+            }
+            composable(route = SiembraValoresScreen.perfil.name) {
+                PerfilScreen()
+            }
+            composable(route=SiembraValoresScreen.misiones.name){
+                MisionesScreen()
+            }
+            composable(route = SiembraValoresScreen.notificaciones.name) {
+                NotificacionesScreen()
+            }
         }
     }
 }

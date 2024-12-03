@@ -18,7 +18,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.ui.graphics.Color
 
 @Composable
-fun AddServiceScreen() {
+fun AddServiceScreen(onNextButtonClicked: () -> Unit) {
     var comments by remember { mutableStateOf("") }
     var height by remember { mutableStateOf("") }
     var circumference by remember { mutableStateOf("") }
@@ -98,7 +98,7 @@ fun AddServiceScreen() {
 
                 Spacer(modifier = Modifier.height(24.dp))
                 Button(
-                    onClick = { /* Acción de agregar */ },
+                    onClick = onNextButtonClicked,
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 ) {
                     Text(text = "Agregar")

@@ -10,6 +10,7 @@ import com.example.siembravalores.repository.Repositorio
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class SiembraValoresViewModel(private val repository:Repositorio=Repositorio()):ViewModel() {
@@ -23,10 +24,16 @@ class SiembraValoresViewModel(private val repository:Repositorio=Repositorio()):
 
     fun updateCorreo(correoUsuario:String){
         correo=correoUsuario
+        _uiState.update { currentState->
+            currentState.copy(correo=correoUsuario)
+        }
     }
 
     fun updateContrasena(contrasenaUsuario:String){
         contrasena=contrasenaUsuario
+        _uiState.update { currentState->
+            currentState.copy(contrasena=contrasenaUsuario)
+        }
     }
     fun autenticarUsuario(correo: String, contrasena: String) {
         viewModelScope.launch {

@@ -59,4 +59,5 @@ fun NotificacionesScreen() {
             }
         }
     }
+
 }

@@ -28,6 +28,7 @@ router.get('/session', (req,res)=>{
 })
 router.get("/rt-prueba",async(req,res)=>{
     const resultado=await app_movil.pruebaApp()
+    
     res.json(resultado.datos)
 })
 module.exports = router
