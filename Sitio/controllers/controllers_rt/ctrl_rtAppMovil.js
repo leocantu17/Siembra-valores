@@ -60,7 +60,6 @@ const ctrl_rAppMovil={
     agregarNotificaciones:async(req,res)=>{
         try{
             await appMovilDb.agregarNotificacionDb()
-            return res.json(resultado)
         }catch(error){
             console.log(error)
         }
