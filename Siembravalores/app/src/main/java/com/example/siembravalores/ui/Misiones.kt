@@ -19,32 +19,11 @@ import com.example.siembravalores.R
 
 @Composable
 fun MisionesScreen() {
-    Scaffold(
-        topBar = {
-            // Barra de título personalizada sin usar TopAppBar ni SmallTopAppBar
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(56.dp)
-                    .background(Color(0xFF6200EE)), // Color de fondo de la barra
-                contentAlignment = Alignment.CenterStart
-            ) {
-                // Título de la barra
-                Text(
-                    text = "Misiones",
-                    color = Color.White,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp,
-                    modifier = Modifier.padding(start = 16.dp)
-                )
-            }
-        }
-    ) { paddingValues ->
+
         // Contenido principal
         Column(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues),
+                .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             // Logo del árbol
@@ -95,7 +74,7 @@ fun MisionesScreen() {
             }
         }
     }
-}
+
 
 @Composable
 fun MissionItem(title: String, points: String) {

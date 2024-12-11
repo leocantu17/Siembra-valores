@@ -1,18 +1,97 @@
 package com.example.siembravalores.data
 
 import kotlinx.serialization.Serializable
+import java.time.format.DateTimeFormatter
 
 data class SiembraValoresUiState(
     val correo:String="",
     val contrasena:String="",
     val autenticado: Boolean=false,
     val error:String="",
-    val usuario:List<Usuario> = emptyList()
+    val id_Arbol:Int=0,
+    val id_Us:Int=0,
+    val usuario:List<Usuario> = emptyList(),
+    val arboles:List<Arboles> = emptyList(),
+    val valores:List<Valores> = emptyList(),
+    val misArboles:List<misArbolesData> = emptyList(),
+    val arbolesInfo:List<infoArbol> = emptyList(),
+    val servicios: List<Servicios> = emptyList(),
+    val perfil:List<Perfil> = emptyList(),
+    val notificaciones:List<Notificacion> = emptyList(),
+    val nombreArbol:String="",
+    val ID_SERVICIO:Int=0,
+    var isLoading:Boolean=false
+
 )
 
 @Serializable
 data class Usuario (
-    val id: String? = null,
+    val id: Int,
     val nombre: String? = null
+)
+
+@Serializable
+data class Arboles(
+    val ID:Int,
+    val DESCRIPCION:String?=null,
+    val NOMBRE:String?=null,
+    val FECHA_PLANTADO:String?=null,
+    val CARACTERISTICA:String?=null,
+    val COLONIA:String?=null,
+    val ID_VALOR:String?=null,
+    val NOMBRE_VALOR:String?=null
+)
+
+@Serializable
+data class Valores(
+    val ID_VALOR:String?=null,
+    val VALOR:String?=null
+)
+
+@Serializable
+data class infoArbol(
+    val ID_ARBOL:Int=0,
+    val NOMBRE_CIENTIFICO:String?=null,
+    val FECHA_PLANTADO: String?=null,
+    val DESCRIPCION: String?=null,
+    val ENDEMICO:Boolean=false,
+    val ALTURA:String?=null,
+    val CIRCUNFERENCIA:String?=null,
+    val VALOR:String?=null,
+    val COLONIA: String?=null
+)
+
+@Serializable
+data class misArbolesData(
+    val ID_ARBOL: Int=0,
+    val NOMBRE_VALOR: String?=null,
+    val DESCRIPCION: String?=null
+)
+
+@Serializable
+data class Servicios(
+    val ID_SERVICIO: Int=0,
+    val TIPO:String?=null
+)
+
+@Serializable
+data class Perfil(
+    val PUNTOS:String?=null,
+    val NOMBRE:String?=null,
+    val AP_P:String?=null,
+    val AP_M:String?=null,
+    val CORREO:String?=null,
+    val FECHA_NAC:String?=null,
+    val FECHA_REGISTRO:String?=null,
+    val ESCUELA:String?=null,
+    val CELULAR:String?=null
+)
+
+@Serializable
+data class Notificacion(
+    val ID_NOTIFIACION:Int=0,
+    val MENSAJE:String?=null,
+    val FECHA_ENVIO:String?=null,
+    val VALOR:String?=null
 )
 

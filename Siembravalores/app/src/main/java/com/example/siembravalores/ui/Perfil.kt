@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -15,56 +16,102 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.draw.clip
 import com.example.siembravalores.R
+import com.example.siembravalores.data.SiembraValoresUiState
 
 @Composable
-fun PerfilScreen() {
-    Column(
+fun PerfilScreen(
+    onNextButtonClicked: () -> Unit,
+    consulta: () -> Unit,
+    uiState: SiembraValoresUiState
+) {
+    LaunchedEffect(key1=true) {
+        consulta()
+    }
+
+    // Extrae el perfil si está disponible
+    val perfil = uiState.perfil.firstOrNull()
+
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .padding(16.dp)
     ) {
+        // Botón en la esquina superior derecha
+        IconButton(
+            onClick = onNextButtonClicked,
+            modifier = Modifier.align(Alignment.TopEnd)
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.misiones),
+                contentDescription = "Botón de Misiones"
+            )
+        }
 
-        // Espacio para la imagen de perfil
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Image(
-            painter = painterResource(id = R.drawable.ic_launcher_foreground), // Usa la imagen llamada Perfil.jpg
-            contentDescription = "Imagen de perfil",
+        // Contenido principal
+        Column(
             modifier = Modifier
-                .size(100.dp)
-                .clip(CircleShape), // Usamos CircleShape para recortar la imagen
-            contentScale = ContentScale.Crop
-        )
+                .fillMaxSize()
+                .padding(top = 56.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Spacer(modifier = Modifier.height(16.dp))
 
-        Spacer(modifier = Modifier.height(8.dp))
+            Image(
+                painter = painterResource(id = R.drawable.perfil),
 
-        // Nombre de usuario y correo
-        Text(
-            text = "Usuario",
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold
-        )
+                contentDescription = "Imagen de perfil",
+                modifier = Modifier
+                    .size(100.dp)
+                    .clip(CircleShape),
+                contentScale = ContentScale.Crop
+            )
 
-        Text(
-            text = "juanitonoseque@gmail.com",
-            fontSize = 14.sp,
-            color = Color.Blue
-        )
+            Spacer(modifier = Modifier.height(8.dp))
 
-        Spacer(modifier = Modifier.height(16.dp))
+            // Nombre completo
+            Text(
+                text = buildString {
+                    append(perfil?.NOMBRE ?: "Nombre")
+                    append(" ")
+                    append(perfil?.AP_P ?: "")
+                    append(" ")
+                    append(perfil?.AP_M ?: "")
+                }.trim(),
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold
+            )
 
-        // Información adicional del perfil
-        ProfileInfo(label = "Fecha de nacimiento:", value = "07/12/2014")
-        ProfileInfo(label = "Edad:", value = "10 años")
-        ProfileInfo(label = "Fecha de registro:", value = "12/01/2023")
-        ProfileInfo(label = "Celular:", value = "555-123-4567")
-        ProfileInfo(label = "Escuela:", value = "Escuela Secundaria")
+            // Correo
+            Text(
+                text = perfil?.CORREO ?: "correo@ejemplo.com",
+                fontSize = 14.sp,
+                color = Color.Blue
+            )
 
-        Spacer(modifier = Modifier.weight(1f)) // Deja espacio para el navegador en la parte inferior
+            Spacer(modifier = Modifier.height(16.dp))
 
-        // Línea de separación para el futuro navegador
-        Divider(color = Color.Gray, thickness = 1.dp)
+            // Información de perfil con datos dinámicos
+            ProfileInfo(
+                label = "Fecha de nacimiento:",
+                value = perfil?.FECHA_NAC ?: "No disponible"
+            )
+            ProfileInfo(
+                label = "Fecha de registro:",
+                value = perfil?.FECHA_REGISTRO ?: "No disponible"
+            )
+            ProfileInfo(
+                label = "Celular:",
+                value = perfil?.CELULAR ?: "No disponible"
+            )
+            ProfileInfo(
+                label = "Escuela:",
+                value = perfil?.ESCUELA ?: "No disponible"
+            )
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            Divider(color = Color.Gray, thickness = 1.dp)
+        }
     }
 }
 

@@ -175,16 +175,198 @@ const alumno={
    },
  }
 
- const app_movil={
-  pruebaApp:async()=>{
+ const appMovilDb={
+  inicirSesionApp:async(data)=>{
     try {
       const resultado=await sqlConn.request()
-      .query(`SELECT ID_US AS id,NOMBRE as nombre FROM USUARIO`)
+      .input(`CORREO`,sql.NVarChar,data.correo)
+      .input(`CONTRASENA`,sql.NVarChar,data.contrasena)
+      .query(`SELECT A.ID_US AS id FROM USUARIO U JOIN ALUMNO A ON U.ID_US=A.ID_US WHERE U.CORREO=@CORREO AND U.CONTRASENA=@CONTRASENA`)
       return objetoResultadoSQL(resultado)
     } catch (error) {
       throw error
     }
+  },
+  arbolesDb:async(datos)=>{
+    try {
+        const resultado=await sqlConn.request()
+        .input("ID_US",sql.Int,datos.id)
+        .query(`SELECT A.DESCRIPCION,
+                A.ID_ARBOL AS ID,
+	              CASE
+	              WHEN A.ID_VALOR IS NULL THEN  A.NOMBRE_CIENTIFICO
+	              ELSE V.VALOR 
+	              END AS NOMBRE
+                FROM ARBOL A LEFT JOIN VALORES V ON A.ID_VALOR=V.ID_VALOR  `)
+                // WHERE A.ID_COL=(SELECT ID_COL FROM USUARIO WHERE ID_US=@ID_US)
+        return objetoResultadoSQL(resultado)
+    } catch (error) {
+      throw error
+    }
+  },
+  informacionArbolDb:async(datos)=>{
+    try {
+      const resultado=await sqlConn.request()
+      .input(`ID_ARBOL_INFO`,sql.Int,datos.id)
+      .query(`DECLARE @ID_VALOR_INFO INT;
+              SET @ID_VALOR_INFO=(SELECT ID_VALOR FROM ARBOL WHERE ID_ARBOL=@ID_ARBOL_INFO);
+              IF @ID_VALOR_INFO IS NULL
+              BEGIN
+                SELECT CO.NOMBRE AS COLONIA,A.ID_ARBOL AS ID,A.NOMBRE_CIENTIFICO,FORMAT(A.FECHA_PLANTADO,'dd/MM/yy ') AS FECHA_PLANTADO,C.DESCRIPCION,C.FRECUENCIA,A.ID_VALOR,V.VALOR AS NOMBRE_VALOR FROM ARBOL A JOIN CUIDADOS C ON A.ID_ARBOL=C.ID_CUIDADOS LEFT JOIN VALORES V ON A.ID_VALOR=V.ID_VALOR JOIN COLONIA CO ON A.ID_COL=CO.ID_COL WHERE A.ID_ARBOL=@ID_ARBOL_INFO
+              END
+              ELSE
+              BEGIN
+                SELECT CO.NOMBRE AS COLONIA,A.ID_ARBOL AS ID,A.NOMBRE_CIENTIFICO,FORMAT(A.FECHA_PLANTADO,'dd/MM/yy ') AS FECHA_PLANTADO,C.DESCRIPCION,C.FRECUENCIA,A.ID_VALOR,V.VALOR AS NOMBRE_VALOR FROM ARBOL A JOIN CUIDADOS C ON A.ID_ARBOL=C.ID_CUIDADOS LEFT JOIN VALORES V ON A.ID_VALOR=V.ID_VALOR JOIN COLONIA CO ON A.ID_COL=CO.ID_COL WHERE A.ID_ARBOL=@ID_ARBOL_INFO
+              END`)
+      return objetoResultadoSQL(resultado)
+    } catch (error) {
+      throw error
+    }
+  },
+  adoptarArbolApp:async(datos)=>{
+    try {
+      await sqlConn.request()
+      .input('ID_US',sql.Int,datos.ID_US)
+      .input('ID_ARBOL',sql.Int,datos.ID_ARBOL)
+      .input('ID_VALOR',sql.Int,datos.ID_VALOR)
+      .query(`EXEC ADOPTA_ARBOL @ID_US,@ID_ARBOL,@ID_VALOR`)
+    } catch (error) {
+      throw error
+    }
+  },
+  historialServiciosDb:async(datos)=>{
+    try {
+      const resultado=await sqlConn.request()
+      .input('ID_US',sql.Int,datos.id)
+      .query(`SELECT S.TIPO,B.FECHA_SERVICIO,B.COMENTARIOS FROM SERVICIOS S JOIN BRINDAN B ON S.ID_SERVICIO=B.ID_SERVICIO JOIN ARBOL A 
+              ON A.ID_ARBOL=B.ID_ARBOL JOIN ADOPTA AD ON B.ID_ARBOL=AD.ID_ARBOL WHERE AD.ID_US=@ID_US`)
+    } catch (error) {
+      throw error
+    }
+  },
+  perfilUsuarioDb:async(datos)=>{
+    try {
+      const resultado=await sqlConn.request()
+      .input('ID_US',sql.Int,datos.id)
+      .query(`SELECT A.PUNTOS,U.NOMBRE,U.AP_P,U.AP_M,U.CORREO,U.FECHA_NAC FROM USUARIO U JOIN ALUMNO A ON U.ID_US=A.ID_US WHERE A.ID_US=@ID_US`)
+      return objetoResultadoSQL(resultado)
+    } catch (error) {
+      throw error
+    }
+  },
+  realizarMisionDb:async(datos)=>{
+    try {
+      await sqlConn.request()
+      .input('ID_US',sql.Int,datos.id_us)
+      .input('PUNTOS',sql.Int,datos.puntos)
+      .query(`UPDATE ALUMNO SET PUNTOS=@PUNTOS WHERE ID_US=@ID_US`)
+    } catch (error) {
+      throw error
+    }
+  },
+  notificacionesAlumnoDb:async(datos)=>{
+    try {
+      const resultado=await sqlConn.request()
+      .input('ID_US',sql.Int,datos.id_us)
+      .query(`SELECT N.ID_NOTIFICACION,N.MENSAJE, N.FECHA_ENVIO,V.VALOR FROM NOTIFICACIONES N JOIN  ADOPTA AD ON N.ID_ARBOL = AD.ID_ARBOL
+            JOIN ARBOL A ON AD.ID_ARBOL = A.ID_ARBOL JOIN VALOR V ON A.ID_VALOR=V.ID_VALOR  WHERE N.ID_US = @ID_US AND N.LEIDO = 0  ORDER BY N.FECHA_ENVIO DESC;`)
+      return objetoResultadoSQL(resultado)
+    } catch (error) {
+      throw error
+    }
+ },
+ notifciacionesLeidoDb:async(datos)=>{
+   try {
+     await sqlConn.request()
+     .input('ID_NOTIFICACION',sql.Int,datos.id)
+     .query(`UPDATE NOTIFICACIONES SET LEIDO=1 WHERE ID_NOTIFICACION=@ID_NOTIFICACION`)
+   } catch (error) {
+     throw error
+   }
+ },
+ valoresDb:async()=>{
+  try {
+    const resultado=await sqlConn.request()
+    .query("SELECT * FROM VALORES")
+    return objetoResultadoSQL(resultado)
+  } catch (error) {
+    throw error
   }
+ },
+ misArbolesDbInfo:async(datos)=>{
+  try {
+    const resultado=await sqlConn.request()
+    .input('ID_ARBOL',sql.Int,datos.ID_ARBOL)
+    .query(`SELECT A.ID_ARBOL, A.NOMBRE_CIENTIFICO,A.DESCRIPCION,A.ENDEMICO,FORMAT(AD.FECHA_ADOPCION_INICIO,'dd/MM/yy ') AS FECHA_PLANTADO,AD.ALTURA,AD.CIRCUNFERENCIA,
+    V.VALOR,C.NOMBRE AS COLONIA FROM ADOPTA AD JOIN ARBOL A ON AD.ID_ARBOL = A.ID_ARBOL LEFT JOIN  VALORES V ON A.ID_VALOR = V.ID_VALOR LEFT JOIN COLONIA C ON A.ID_COL = C.ID_COL
+    WHERE AD.ID_ARBOL = @ID_ARBOL `)
+    return objetoResultadoSQL(resultado)
+  } catch (error) {
+    throw error
+  }
+ },
+ misArbolesDb:async(datos)=>{
+  try {
+    const resultado=await sqlConn.request()
+    .input('ID_US',sql.Int,datos.ID_US)
+    .query(`SELECT V.VALOR AS NOMBRE_VALOR,A.DESCRIPCION,A.ID_ARBOL FROM ARBOL A LEFT JOIN VALORES V ON A.ID_VALOR=V.ID_VALOR LEFT JOIN ADOPTA AD ON AD.ID_ARBOL=A.ID_ARBOL WHERE AD.ID_US=@ID_US`)
+    return objetoResultadoSQL(resultado)
+  } catch (error) {
+    throw error
+  }
+},
+serviciosDb:async()=>{ 
+  try {
+    const resultado=await sqlConn.request()
+    .query(`SELECT * FROM SERVICIOS `)
+    return objetoResultadoSQL(resultado)
+  } catch (error) {
+    throw error
+  }
+},
+perfilUsuarioDb:async(datos)=>{
+  try {
+    const resultado=await sqlConn.request()
+    .input('ID_US',sql.Int,datos.ID_US)
+    .query(`SELECT A.PUNTOS,U.NOMBRE,U.AP_P,U.AP_M,U.CORREO,FORMAT(U.FECHA_NAC,'dd/MM/yy') AS FECHA_NAC,FORMAT(U.FECHA_REGISTRO,'dd/MM/yy') AS FECHA_REGISTRO,E.NOMBRE AS ESCUELA,U.CELULAR
+      FROM USUARIO U JOIN ALUMNO A ON U.ID_US=A.ID_US JOIN ESCUELA E ON A.ID_ESCUELA=E.ID_ESCUELA WHERE A.ID_US=@ID_US`)
+    return objetoResultadoSQL(resultado)
+  } catch (error) {
+    throw error
+  }
+},
+agregarNotificacionDb:async(datos)=>{
+  try {
+    await sqlConn.request()
+    .query(`INSERT INTO NOTIFICACIONES (ID_US, ID_ARBOL, MENSAJE, FECHA_ENVIO)
+            SELECT 
+                A.ID_US,
+                A.ID_ARBOL,
+                CONCAT('Es hora de realizar el cuidado: ', C.NOMBRE, ' para el árbol adoptado.'),
+                (SELECT DBO.OBTENER_FECHA())
+            FROM 
+                ADOPTA A
+            JOIN 
+                CUIDADOS C ON A.ID_ARBOL = C.ID_CUIDADOS
+            LEFT JOIN 
+                BRINDAN B ON A.ID_ARBOL = B.ID_ARBOL AND C.ID_CUIDADOS = B.ID_SERVICIO
+            WHERE 
+                DATEDIFF(DAY, B.FECHA_SERVICIO, (SELECT DBO.OBTENER_FECHA())) >= 
+                CASE 
+                    WHEN C.FRECUENCIA = 'Semanal' THEN 7
+                    WHEN C.FRECUENCIA = 'Quincenal' THEN 15
+                    WHEN C.FRECUENCIA = 'Mensual' THEN 30
+                    WHEN C.FRECUENCIA = 'Bimensual' THEN 60
+                    WHEN C.FRECUENCIA = 'Trimestral' THEN 90
+                    WHEN C.FRECUENCIA = 'Semestral' THEN 180
+                    WHEN C.FRECUENCIA = 'Anual' THEN 365
+                    ELSE 0
+                END;
+`)
+  } catch (error) {
+    throw error
+  }
+}
  }
 
  const escuela={
@@ -251,4 +433,4 @@ const alumno={
    },
  }
 
-module.exports={prueba,usuario,alumno,arbol,colonia,escuela,cuidados,notificaciones,app_movil}
+module.exports={prueba,usuario,alumno,arbol,colonia,escuela,cuidados,notificaciones,appMovilDb}

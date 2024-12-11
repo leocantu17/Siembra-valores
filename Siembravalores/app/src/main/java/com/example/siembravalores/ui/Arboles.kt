@@ -1,4 +1,6 @@
 package com.example.siembravalores.ui
+
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -6,90 +8,77 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.siembravalores.R
+import com.example.siembravalores.data.Arboles
+import com.example.siembravalores.data.SiembraValoresUiState
 
 @Composable
-fun Arboles(onNextButtonClicked: () -> Unit) {
-    Column(modifier = Modifier.fillMaxSize()) {
-        Encabezado(onNextButtonClicked)
-        ListaDeArboles(onNextButtonClicked)
-        EspacioParaExplorador()
+fun Arboles(
+    onNextButtonClicked: (Int) -> Unit,
+    consulta: () -> Unit,
+    uiState: SiembraValoresUiState
+) {
+    // Previous implementation remains the same
+    LaunchedEffect(key1 = true) {
+        consulta()
     }
-}
 
-@Composable
-fun Encabezado(onNextButtonClicked: () -> Unit) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(36.dp)
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.logo), // Recurso existente
-            contentDescription = "Imagen del Árbol",
-            modifier = Modifier
-                .size(120.dp)
-                .padding(bottom = 8.dp)
-        )
-
-        Text(
-            text = "Palo de rosa",
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(bottom = 4.dp)
-        )
-
-        Text(
-            text = "Tienen un fuerte olor dulce, que persiste durante años.",
-            fontSize = 16.sp,
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
-
-        Button(onClick = onNextButtonClicked) {
-            Text(text = "Adoptar")
+    when {
+        uiState.isLoading -> {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator()
+            }
+        }
+        uiState.error.isNotEmpty() -> {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                Text(
+                    text = "Error: ${uiState.error}",
+                    color = Color.Red,
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
+        }
+        else -> {
+            Column(modifier = Modifier.fillMaxSize()) {
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(2),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    items(uiState.arboles) { arbol ->
+                        ArbolGridItem(
+                            arbol = arbol,
+                            onNextButtonClicked = onNextButtonClicked
+                        )
+                    }
+                }
+            }
         }
     }
 }
 
 @Composable
-fun ListaDeArboles(onNextButtonClicked: () -> Unit) {
-    val arboles = listOf(
-        "Árbol 1 - Descripción breve",
-        "Árbol 2 - Descripción breve",
-        "Árbol 3 - Descripción breve",
-        "Árbol 4 - Descripción breve",
-        "Árbol 5 - Descripción breve",
-        "Árbol 6 - Descripción breve"
-    )
-
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        items(arboles) { arbol ->
-            TarjetaDeArbolGrid(arbol,onNextButtonClicked)
-        }
-    }
-}
-
-@Composable
-fun TarjetaDeArbolGrid(nombre: String, onNextButtonClicked: () -> Unit) {
+fun ArbolGridItem(
+    arbol: Arboles,
+    onNextButtonClicked: (Int) -> Unit
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(4.dp),
-        elevation = CardDefaults.cardElevation(4.dp) // Elevación ajustada a Material 3
+        elevation = CardDefaults.cardElevation(4.dp)
     ) {
         Column(
             modifier = Modifier.padding(8.dp),
@@ -101,38 +90,34 @@ fun TarjetaDeArbolGrid(nombre: String, onNextButtonClicked: () -> Unit) {
                 contentDescription = "Imagen del Árbol",
                 modifier = Modifier.size(60.dp)
             )
-
             Text(
-                text = nombre,
+                text = arbol.NOMBRE ?: "Sin nombre",
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(top = 8.dp)
             )
 
+            // Added description text
+            Text(
+                text = arbol.DESCRIPCION ?: "Sin descripción disponible",
+                fontSize = 12.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .padding(vertical = 8.dp)
+                    .fillMaxWidth()
+            )
+
+            // Added button
             Button(
-                onClick = onNextButtonClicked,
-                modifier = Modifier.padding(top = 4.dp)
+                onClick = {
+                    // Assuming you want to pass the ID or some identifier when the button is clicked
+                    arbol.ID?.let { onNextButtonClicked(it) }
+                },
+                modifier = Modifier.fillMaxWidth()
             ) {
-                Text(text = "Adoptar", fontSize = 12.sp)
+                Text("Seleccionar")
             }
         }
     }
 }
 
-@Composable
-fun EspacioParaExplorador() {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(80.dp)
-            .padding(56.dp),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = "Espacio reservado para el explorador",
-            color = Color.Gray,
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Light
-        )
-    }
-}

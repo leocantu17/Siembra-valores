@@ -84,6 +84,7 @@ fun SiembraValoresApp(
     viewModel: SiembraValoresViewModel = viewModel(),
     navController: NavHostController = rememberNavController()
 ) {
+
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentScreen = SiembraValoresScreen.valueOf(
         backStackEntry?.destination?.route ?: SiembraValoresScreen.Inicio.name
@@ -98,40 +99,47 @@ fun SiembraValoresApp(
             )
         },
         bottomBar = {
-            val items = listOf(
-                Items_menu.Adoptar,
-                Items_menu.Historial,
-                Items_menu.misArboles,
-                Items_menu.Perfil,
-                Items_menu.Notificaciones
-            )
-            val backStackEntry by navController.currentBackStackEntryAsState()
-            NavigationBar {
-                val currentRoute = backStackEntry?.destination?.route
-                items.forEach { item ->
-                    val selected = currentRoute == item.ruta
+            val uiState by viewModel.uiState.collectAsState()
+            if (uiState.autenticado) { // Mostrar solo si autenticado es true
+                val items = listOf(
+                    Items_menu.Adoptar,
+                    Items_menu.Historial,
+                    Items_menu.misArboles,
+                    Items_menu.Perfil,
+                    Items_menu.Notificaciones
+                )
 
-                    NavigationBarItem(selected = selected, onClick = {
-                        navController.navigate(item.ruta) {
-                            popUpTo(navController.graph.startDestinationId) {
-                                saveState = true
-                            }
-                            launchSingleTop = true
-                            restoreState = true
-                        }
-                    }, icon = {
-                        Icon(
-                            painter = painterResource(id = item.icon),
-                            contentDescription = null,
-                            modifier = Modifier.size(24.dp)
-                        )
-                    },
+                val backStackEntry by navController.currentBackStackEntryAsState()
+                NavigationBar {
+                    val currentRoute = backStackEntry?.destination?.route
+                    items.forEach { item ->
+                        val selected = currentRoute == item.ruta
+
+                        NavigationBarItem(
+                            selected = selected,
+                            onClick = {
+                                navController.navigate(item.ruta) {
+                                    popUpTo(navController.graph.startDestinationId) {
+                                        saveState = true
+                                    }
+                                    launchSingleTop = true
+                                    restoreState = true
+                                }
+                            },
+                            icon = {
+                                Icon(
+                                    painter = painterResource(id = item.icon),
+                                    contentDescription = null,
+                                    modifier = Modifier.size(24.dp)
+                                )
+                            },
 //                        label = { Text(text = item.title) },
 //                        alwaysShowLabel = false
-                    )
+                        )
+                    }
                 }
-            }
 
+            }
         }
     ) { innerPadding ->
         NavHost(
@@ -164,48 +172,96 @@ fun SiembraValoresApp(
                     )
             }
             composable(route=SiembraValoresScreen.Arboles.name){
+                val uiState by viewModel.uiState.collectAsState()
                 Arboles(
                     onNextButtonClicked={
                         navController.navigate(SiembraValoresScreen.Adoptar.name)
-                    }
+                        viewModel.actualizarIDArbol(it)
+                    },
+                    consulta={viewModel.arbolesDisponibles()},
+                    uiState =uiState
                 )
             }
             composable(route = SiembraValoresScreen.Adoptar.name) {
+                val uiState by viewModel.uiState.collectAsState()
                 PantallaAdopcion(
-                    onNextButtonClicked={
+                    onNextButtonClicked ={
                         navController.navigate(SiembraValoresScreen.misArboles.name)
-                    }
+                        viewModel.AdoptarArbol()
+                    },
+                    consulta ={
+                        viewModel.InformacionArbol()
+                        viewModel.valores() },
+                    InformacionArbol =uiState.arboles,
+                    onValueChange ={ id, name->
+                        viewModel.upadteArbolValue(id, name.toString())
+                    },
+                    uiState =uiState
                 )
             }
             composable(route = SiembraValoresScreen.misArboles.name) {
+                val uiState by viewModel.uiState.collectAsState()
                 TreeList(
+                    consultaArboles={viewModel.misArboles(uiState.id_Us)},
+                    consultaArbolesInfo={viewModel.misArbolesInfo(it)},
+
                     onNextButtonClicked={
+                        viewModel.actualizarIDArbol(it)
                         navController.navigate(SiembraValoresScreen.agregarServicio.name)
-                    }
+                    },
+
+                    uiState=uiState,
+                    modifier= Modifier
+                        .fillMaxSize()
+                        .padding(innerPadding)
+
                 )
             }
             composable(route=SiembraValoresScreen.agregarServicio.name){
+                val uiState by viewModel.uiState.collectAsState()
                 AddServiceScreen(
                     onNextButtonClicked={
                         navController.navigate(SiembraValoresScreen.historial.name)
-                    }
+                    },
+                    modifier= Modifier
+                        .fillMaxSize()
+                        .padding(innerPadding),
+                    consulta={viewModel.obtenerServicios()},
+                    uiState=uiState,
+                    onSelectionChange={viewModel.setServicio(it)}
                 )
             }
             composable(route = SiembraValoresScreen.historial.name) {
                 HistorialServiciosApp(
-                    onNextButtonClicked={
-                        navController
-                    }
+
+                    modifier= Modifier
+                        .fillMaxSize()
+                        .padding(innerPadding)
+                        .padding(dimensionResource(id = R.dimen.padding_medium))
                 )
             }
             composable(route = SiembraValoresScreen.perfil.name) {
-                PerfilScreen()
+                val uiState by viewModel.uiState.collectAsState()
+                PerfilScreen(
+                    onNextButtonClicked={
+                        navController.navigate(SiembraValoresScreen.misiones.name)
+                    },
+                    consulta={viewModel.obtenerPerfil()},
+                    uiState=uiState
+                )
             }
-            composable(route=SiembraValoresScreen.misiones.name){
-                MisionesScreen()
-            }
+//            composable(route=SiembraValoresScreen.misiones.name){
+//                MisionesScreen()
+//            }
             composable(route = SiembraValoresScreen.notificaciones.name) {
-                NotificacionesScreen()
+                val uiState by viewModel.uiState.collectAsState()
+                NotificacionesScreen(
+                    notificaciones = uiState.notificaciones,
+                    onNotificationClick = {
+                        viewModel.notificacionLeida(it)
+
+                    }
+                )
             }
         }
     }
