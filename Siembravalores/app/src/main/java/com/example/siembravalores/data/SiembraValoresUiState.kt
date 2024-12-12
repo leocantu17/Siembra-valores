@@ -18,6 +18,7 @@ data class SiembraValoresUiState(
     val servicios: List<Servicios> = emptyList(),
     val perfil:List<Perfil> = emptyList(),
     val notificaciones:List<Notificacion> = emptyList(),
+    val historialServicios:List<HistorialServicios> = emptyList(),
     val nombreArbol:String="",
     val ID_SERVICIO:Int=0,
     var isLoading:Boolean=false
@@ -93,5 +94,12 @@ data class Notificacion(
     val MENSAJE:String?=null,
     val FECHA_ENVIO:String?=null,
     val VALOR:String?=null
+)
+
+@Serializable
+data class HistorialServicios(
+    val TIPO: String?=null,
+    val FECHA_SERVICIO:String?=null,
+    val COMENTARIOS:String?=null
 )
 

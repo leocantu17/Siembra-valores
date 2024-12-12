@@ -1,18 +1,18 @@
 package com.example.siembravalores.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.foundation.background
-import androidx.compose.foundation.selection.selectable
-import androidx.compose.ui.graphics.Color
 import com.example.siembravalores.data.SiembraValoresUiState
 
 @Composable
@@ -21,7 +21,8 @@ fun AddServiceScreen(
     modifier: Modifier,
     consulta: () -> Unit,
     uiState: SiembraValoresUiState,
-    onSelectionChange: (Int) -> Unit
+    onSelectionChange: (Int) -> Unit,
+    onServiceDetailsSubmit: (Int, String, Float, Float) -> Unit // Nueva lambda para enviar detalles
 ) {
     LaunchedEffect(key1 = true) {
         consulta()
@@ -30,67 +31,107 @@ fun AddServiceScreen(
     var height by remember { mutableStateOf("") }
     var circumference by remember { mutableStateOf("") }
     var selectedServicioId by remember { mutableStateOf<Int?>(null) }
-    val serviceOptions = listOf("Podar", "Regar", "Fumigar", "Fertilizar", "Medir")
-    var selectedOption by remember { mutableStateOf(-1) }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        horizontalAlignment = Alignment.Start
+            .background(Color.White)
+            .padding(16.dp)
     ) {
-        Text(text = "Tipo de servicio", fontSize = 16.sp)
-        serviceOptions.forEachIndexed { index, service ->
-            Row(verticalAlignment = Alignment.CenterVertically) {
+        Text(
+            text = "Selecciona un Servicio",
+            color = Color.Black, // Texto negro
+            modifier = Modifier.padding(bottom = 16.dp)
+        )
+
+        uiState.servicios.forEach { servicio ->
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .selectable(
+                        selected = selectedServicioId == servicio.ID_SERVICIO,
+                        onClick = {
+                            selectedServicioId = servicio.ID_SERVICIO
+                            onSelectionChange(servicio.ID_SERVICIO)
+
+                        }
+                    )
+                    .padding(vertical = 8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 RadioButton(
-                    selected = selectedOption == index,
-                    onClick = { selectedOption = index },
-                    modifier = Modifier.size(20.dp)
+                    selected = selectedServicioId == servicio.ID_SERVICIO,
+                    onClick = {
+                        selectedServicioId = servicio.ID_SERVICIO
+                        onSelectionChange(servicio.ID_SERVICIO)
+                    }
                 )
-                Spacer(modifier = Modifier.width(4.dp))
-                Text(text = service, fontSize = 14.sp)
+
+                Spacer(modifier = Modifier.width(8.dp))
+
+                Text(
+                    text = servicio.TIPO ?: "Servicio sin nombre",
+                    color = Color.Black // Texto negro
+                )
             }
         }
 
         Text(
             text = "Comentarios",
-            fontSize = 16.sp
+            fontSize = 16.sp,
+            color = Color.Black, // Texto negro
+            modifier = Modifier.padding(vertical = 8.dp)
         )
         BasicTextField(
             value = comments,
             onValueChange = { comments = it },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(80.dp)
-                .background(Color.LightGray, shape = MaterialTheme.shapes.small)
-                .padding(4.dp),
-            keyboardOptions = KeyboardOptions.Default
+                .height(100.dp)
+                .padding(8.dp)
+                .background(color = Color.LightGray),
+            keyboardOptions = KeyboardOptions.Default,
+            textStyle = LocalTextStyle.current.copy(color = Color.Black) // Texto negro
         )
 
-        TextField(
-            value = height,
-            onValueChange = { height = it },
-            label = { Text("Altura") },
-            modifier = Modifier.fillMaxWidth(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            textStyle = LocalTextStyle.current.copy(fontSize = 14.sp)
-        )
+        Spacer(modifier = Modifier.height(16.dp))
 
-        TextField(
-            value = circumference,
-            onValueChange = { circumference = it },
-            label = { Text("Circunferencia") },
-            modifier = Modifier.fillMaxWidth(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            textStyle = LocalTextStyle.current.copy(fontSize = 14.sp)
-        )
+        if (uiState.ID_SERVICIO == 9) {
+            TextField(
+                value = height,
+                onValueChange = { height = it },
+                label = { Text("Altura", color = Color.Black) },
+                modifier = Modifier.fillMaxWidth(),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                textStyle = LocalTextStyle.current.copy(color = Color.Black)
+            )
 
-        Button(
-            onClick = onNextButtonClicked,
-            modifier = Modifier.align(Alignment.CenterHorizontally)
-        ) {
-            Text(text = "Agregar", fontSize = 14.sp)
+            Spacer(modifier = Modifier.height(16.dp))
+            TextField(
+                value = circumference,
+                onValueChange = { circumference = it },
+                label = { Text("Circunferencia", color = Color.Black) },
+                modifier = Modifier.fillMaxWidth(),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                textStyle = LocalTextStyle.current.copy(color = Color.Black)
+            )
+
+            Spacer(modifier = Modifier.height(24.dp))
+            Button(
+                onClick = {
+                    // Enviar los detalles usando la nueva lambda
+                    onServiceDetailsSubmit(
+                        selectedServicioId ?: 0,
+                        comments,
+                        height.toFloatOrNull() ?: 0f,
+                        circumference.toFloatOrNull() ?: 0f
+                    )
+                    onNextButtonClicked()
+                },
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            ) {
+                Text(text = "Agregar", color = Color.Black)
+            }
         }
     }
 }

@@ -30,10 +30,9 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.siembravalores.ui.AddServiceScreen
 import com.example.siembravalores.ui.Arboles
-import com.example.siembravalores.ui.HistorialServiciosApp
+import com.example.siembravalores.ui.HistorialServiciosScreen
 import com.example.siembravalores.ui.InicioScreen
 import com.example.siembravalores.ui.LoginScreen
-import com.example.siembravalores.ui.MisionesScreen
 import com.example.siembravalores.ui.NotificacionesScreen
 import com.example.siembravalores.ui.PantallaAdopcion
 import com.example.siembravalores.ui.PerfilScreen
@@ -49,7 +48,7 @@ enum class SiembraValoresScreen(@StringRes val title:Int){
     historial(title = R.string.historial),
     agregarServicio(title = R.string.agregarServicio),
     perfil(title = R.string.perfil),
-    misiones(title = R.string.misiones),
+//    misiones(title = R.string.misiones),
     notificaciones(title = R.string.notificaciones)
 }
 
@@ -228,24 +227,27 @@ fun SiembraValoresApp(
                         .padding(innerPadding),
                     consulta={viewModel.obtenerServicios()},
                     uiState=uiState,
-                    onSelectionChange={viewModel.setServicio(it)}
+                    onSelectionChange={viewModel.setServicio(it)},
+                    onServiceDetailsSubmit = { servicioId, comentarios, altura, circunferencia ->
+                        viewModel.agregarServicioDetalles(
+                            servicioId,
+                            comentarios,
+                            altura,
+                            circunferencia
+                        )
+                    }
                 )
             }
             composable(route = SiembraValoresScreen.historial.name) {
-                HistorialServiciosApp(
-
-                    modifier= Modifier
-                        .fillMaxSize()
-                        .padding(innerPadding)
-                        .padding(dimensionResource(id = R.dimen.padding_medium))
+                val uiState by viewModel.uiState.collectAsState()
+                HistorialServiciosScreen(
+                    uiState = uiState,
+                    onConsulta = { viewModel.historialServicios() }
                 )
             }
             composable(route = SiembraValoresScreen.perfil.name) {
                 val uiState by viewModel.uiState.collectAsState()
                 PerfilScreen(
-                    onNextButtonClicked={
-                        navController.navigate(SiembraValoresScreen.misiones.name)
-                    },
                     consulta={viewModel.obtenerPerfil()},
                     uiState=uiState
                 )

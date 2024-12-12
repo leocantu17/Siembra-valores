@@ -238,8 +238,9 @@ const alumno={
     try {
       const resultado=await sqlConn.request()
       .input('ID_US',sql.Int,datos.id)
-      .query(`SELECT S.TIPO,B.FECHA_SERVICIO,B.COMENTARIOS FROM SERVICIOS S JOIN BRINDAN B ON S.ID_SERVICIO=B.ID_SERVICIO JOIN ARBOL A 
+      .query(`SELECT S.TIPO,FORMAT(B.FECHA_SERVICIO,'dd/MM/yy') AS FECHA_SERVICIO,B.COMENTARIOS FROM SERVICIOS S JOIN BRINDAN B ON S.ID_SERVICIO=B.ID_SERVICIO JOIN ARBOL A
               ON A.ID_ARBOL=B.ID_ARBOL JOIN ADOPTA AD ON B.ID_ARBOL=AD.ID_ARBOL WHERE AD.ID_US=@ID_US`)
+      return objetoResultadoSQL(resultado)
     } catch (error) {
       throw error
     }
@@ -363,6 +364,21 @@ agregarNotificacionDb:async(datos)=>{
                     ELSE 0
                 END;
 `)
+  } catch (error) {
+    throw error
+  }
+},
+agregarServicioDb:async(datos)=>{
+  try { 
+    await sqlConn.request()
+    .input('ID_US',sql.Int,datos.ID_US)
+    .input('TIPO',sql.NVarChar,datos.TIPO)
+    .input('COMENTARIOS',sql.NVarChar,datos.COMENTARIOS)
+    .input('ALTURA',sql.Float,datos.ALTURA)
+    .input('CIRCUNFERENCIA',sql.Float,datos.CIRCUNFERENCIA)
+    .input('ID_ARBOL',sql.Int,datos.ID_ARBOL)
+    .input('ID_SERVICIO',sql.Int,datos.ID_SERVICIO)
+    .query(`EXEC AGREGAR_SERVICIO @ID_ARBOL,@ID_SERVICIO,@COMENTARIOS,@ALTURA,@CIRCUNFERENCIA,@ID_US`)
   } catch (error) {
     throw error
   }

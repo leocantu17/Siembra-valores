@@ -1,6 +1,7 @@
 package com.example.siembravalores.repository
 
 import com.example.siembravalores.data.Arboles
+import com.example.siembravalores.data.HistorialServicios
 import com.example.siembravalores.data.Notificacion
 import com.example.siembravalores.data.Perfil
 import com.example.siembravalores.data.Servicios
@@ -48,6 +49,12 @@ class Repositorio {
     }
     suspend fun notificacionLeida(ID_NOT:Int){
         return api.notificacionLeida(ID_NOT)
+    }
+    suspend fun obtenerHistorialServicios(ID_US: Int):List<HistorialServicios>{
+        return api.getHistorialServicios(ID_US)
+    }
+    suspend fun guardarDetallesServicio(servicioId:Int,comentarios:String,altura:Float,circunferencia:Float,ID_US:Int,ID_ARBOL: Int){
+        return api.agregarServicioApp(servicioId,comentarios,altura,circunferencia,ID_US,ID_ARBOL)
     }
 
 }

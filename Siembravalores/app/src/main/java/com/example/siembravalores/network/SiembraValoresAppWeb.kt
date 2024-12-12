@@ -1,6 +1,7 @@
 package com.example.siembravalores.network
 
 import com.example.siembravalores.data.Arboles
+import com.example.siembravalores.data.HistorialServicios
 import com.example.siembravalores.data.Notificacion
 import com.example.siembravalores.data.Perfil
 import com.example.siembravalores.data.Servicios
@@ -36,7 +37,7 @@ private val client = OkHttpClient.Builder()
     .build()
 
 // URL base con posibilidad de cambiar fácilmente
-private const val BASE_URL = "http://192.168.1.80:3000"
+private const val BASE_URL = "http://192.168.0.4:3000"
 
 // Configuración de Retrofit más detallada
 private val retrofit = Retrofit.Builder()
@@ -102,6 +103,21 @@ interface SiembraValoresService {
     @POST("/rt-notificacion-leida")
     suspend fun notificacionLeida(
         @Query("ID_NOT") ID_NOT:Int
+    )
+
+    @GET("/rt-historial-servicios")
+    suspend fun getHistorialServicios(
+        @Query("ID_US") ID_US:Int
+    ):List<HistorialServicios>
+
+    @POST("/rt-agregar-servicio")
+    suspend fun agregarServicioApp(
+        @Query("ID_SERVICIO") servicioId:Int,
+        @Query("COMENTARIOS") comentarios:String,
+        @Query("ALTURA") altura:Float,
+        @Query("CIRCUNFERENCIA") circunferencia:Float,
+        @Query("ID_US") ID_US: Int,
+        @Query("ID_ARBOL") ID_ARBOL: Int
     )
 }
 

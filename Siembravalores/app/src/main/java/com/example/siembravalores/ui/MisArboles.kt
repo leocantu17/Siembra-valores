@@ -42,7 +42,6 @@ fun TreeList(
                 CircularProgressIndicator()
             }
         }else->{
-        Text(text="${uiState.misArboles}")
         LazyColumn(modifier = modifier) {
             itemsIndexed(uiState.misArboles) { index, tree ->
                 TreeItem(

@@ -41,8 +41,8 @@ const appMovil={
     
     historialServicios:async(req,res)=>{
         try {
-            const id=req.params.id
-            const resultado=await appMovilDb.historialServiciosDb({id})
+            const id=req.query.ID_US
+            const resultado=(await appMovilDb.historialServiciosDb({id})).datos
             return res.json(resultado)
         } catch (error) {
             console.log(error)

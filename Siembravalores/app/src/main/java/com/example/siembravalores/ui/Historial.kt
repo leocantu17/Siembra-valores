@@ -1,93 +1,108 @@
 package com.example.siembravalores.ui
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavHostController
-
-//@Composable
-//fun HistorialServiciosCard(affirmation: Affirmation, modifier: Modifier = Modifier) {
-//    Card(
-//        modifier = Modifier
-//            .fillMaxWidth()
-//            .padding(8.dp)
-//    ) {
-//        Row(
-//            modifier = Modifier.padding(16.dp),
-//            verticalAlignment = Alignment.CenterVertically
-//        ) {
-//            Image(
-//                painter = painterResource(id = affirmation.imagen),
-//                contentDescription = stringResource(id = R.string.imagen),
-//                modifier = Modifier.size(80.dp)
-//            )
-//            Spacer(modifier = Modifier.width(16.dp))
-//            Column {
-//                Text(
-//                    text = LocalContext.current.getString(affirmation.fechaPublicacion),
-//                    modifier = Modifier.padding(16.dp),
-//                    style = MaterialTheme.typography.headlineSmall
-//                )
-//                Text(
-//                    text = LocalContext.current.getString(affirmation.comentarios),
-//                    modifier = Modifier.padding(16.dp),
-//                    style = MaterialTheme.typography.headlineSmall
-//                )
-//            }
-//        }
-//    }
-//}Practica 6
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
+import com.example.siembravalores.R
+import com.example.siembravalores.data.HistorialServicios
+import com.example.siembravalores.data.SiembraValoresUiState
 
 @Composable
-fun HistorialServiciosApp( modifier: Modifier) {
-    Text(text = "Modulo en matenimiento")
+fun HistorialServiciosCard(
+    historialServicio: HistorialServicios,
+    modifier: Modifier = Modifier
+) {
+    Card(modifier = modifier.fillMaxWidth().padding(8.dp)) {
+        Row(
+            modifier = Modifier.padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            ServiceTypeIcon(
+                serviceType = historialServicio.TIPO ?: "N/A",
+                modifier = Modifier
+                    .size(64.dp)
+                    .padding(end = 16.dp)
+            )
+            Column {
+
+                Text(
+                    text = "Fecha: ${historialServicio.FECHA_SERVICIO ?: "N/A"}",
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                Text(
+                    text = "Comentarios: ${historialServicio.COMENTARIOS ?: "N/A"}",
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
+        }
+    }
 }
 
-//@Composable
-//fun HistorialServiciosList(affirmationList: List<Affirmation>, modifier: Modifier = Modifier) {
-//    LazyColumn(modifier = modifier) {
-//        items(affirmationList) { affirmation ->
-//            HistorialServiciosCard(
-//                affirmation = affirmation,
-//                modifier = Modifier.padding(8.dp)
-//            )
-//        }
-//    }
-//}
+@Composable
+fun ServiceTypeIcon(
+    serviceType: String,
+    modifier: Modifier = Modifier
+) {
+    val imageRes = when (serviceType.lowercase()) {
+        "poda" -> R.drawable.podar
+        "fumigación" -> R.drawable.fumigar
+        "riego" -> R.drawable.regar
+        "medición" -> R.drawable.medir
+        "fertilización" -> R.drawable.fertilizar
+        else -> R.drawable.logo // Un ícono predeterminado si no coincide
+    }
 
-//@Composable
-//fun HistorialServiciosApp(name: String, modifier: Modifier) {
-//    val layoutDirection = LocalLayoutDirection.current
-//    Surface(
-//        modifier = Modifier
-//            .fillMaxSize()
-//            .statusBarsPadding()
-//            .padding(
-//                start = WindowInsets.safeDrawing
-//                    .asPaddingValues()
-//                    .calculateStartPadding(layoutDirection),
-//                end = WindowInsets.safeDrawing
-//                    .asPaddingValues()
-//                    .calculateEndPadding(layoutDirection),
-//            ),
-//    ) {
-//        HistorialServiciosList(
-//            affirmationList = Datasource().loadAffirmations(),
-//        )
-//    }
-//}
-//
-//@Preview(showBackground = true)
-//@Composable
-//fun HistorialServiciosPreview() {
-//    Practica6Theme {
-//        HistorialServiciosCard(
-//            Affirmation(
-//                R.string.comentarios1,
-//                R.drawable.podar,
-//                R.string.fecha1
-//            )
-//        )
-//
-//    }
-//}
+    Image(
+        painter = painterResource(id = imageRes),
+        contentDescription = serviceType,
+        modifier = modifier,
+        contentScale = ContentScale.Fit
+    )
+}
+
+@Composable
+fun HistorialServiciosList(
+    historialServicios: List<HistorialServicios>,
+    modifier: Modifier = Modifier
+) {
+    LazyColumn(modifier = modifier) {
+        items(historialServicios) { servicio ->
+            HistorialServiciosCard(
+                historialServicio = servicio,
+                modifier = Modifier.padding(8.dp)
+            )
+        }
+    }
+}
+
+@Composable
+fun HistorialServiciosScreen(
+    uiState: SiembraValoresUiState,
+    onConsulta: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    LaunchedEffect(key1 = true) {
+        onConsulta()
+    }
+
+    Surface(
+        modifier = modifier
+            .fillMaxSize()
+            .statusBarsPadding()
+            .windowInsetsPadding(WindowInsets.safeDrawing)
+    ) {
+        HistorialServiciosList(historialServicios = uiState.historialServicios)
+    }
+}

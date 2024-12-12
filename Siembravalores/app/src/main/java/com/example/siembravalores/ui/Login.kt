@@ -39,7 +39,7 @@ fun LoginScreen(
     onNextButtonClicked: () -> Unit,
     navController: NavController
 ){
-    Text(text="${uiState.error}")
+    Text(text = "${uiState.error}")
         LaunchedEffect(key1=uiState.autenticado) {
             if (uiState.autenticado){
                 navController.navigate(SiembraValoresScreen.Arboles.name) {

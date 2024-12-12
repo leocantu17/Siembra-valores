@@ -20,7 +20,6 @@ import com.example.siembravalores.data.SiembraValoresUiState
 
 @Composable
 fun PerfilScreen(
-    onNextButtonClicked: () -> Unit,
     consulta: () -> Unit,
     uiState: SiembraValoresUiState
 ) {
@@ -37,15 +36,15 @@ fun PerfilScreen(
             .padding(16.dp)
     ) {
         // Botón en la esquina superior derecha
-        IconButton(
-            onClick = onNextButtonClicked,
-            modifier = Modifier.align(Alignment.TopEnd)
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.misiones),
-                contentDescription = "Botón de Misiones"
-            )
-        }
+//        IconButton(
+//            onClick = onNextButtonClicked,
+//            modifier = Modifier.align(Alignment.TopEnd)
+//        ) {
+//            Icon(
+//                painter = painterResource(id = R.drawable.misiones),
+//                contentDescription = "Botón de Misiones"
+//            )
+//        }
 
         // Contenido principal
         Column(

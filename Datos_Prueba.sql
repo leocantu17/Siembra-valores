@@ -64,7 +64,8 @@ INSERT INTO SERVICIOS (TIPO) VALUES
 ('Riego'),
 ('Fertilización'),
 ('Poda'),
-('Control de plagas');
+('Fumigación'),
+('Medición');
 
 INSERT INTO BRINDAN (ID_ARBOL, ID_SERVICIO, FECHA_SERVICIO, COMENTARIOS, ESTADO) VALUES
 (1, 1, GETDATE(), 'Se realizó el riego en la tarde.', 'Completado'),

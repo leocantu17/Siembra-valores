@@ -307,4 +307,42 @@ class SiembraValoresViewModel(private val repository:Repositorio=Repositorio()):
             }
         }
     }
+    fun historialServicios(){
+        viewModelScope.launch {
+            try {
+                val response=repository.obtenerHistorialServicios(uiState.value.id_Us)
+                _uiState.value=_uiState.value.copy(
+                    historialServicios = response
+                )
+            }catch (e:Exception){
+                _uiState.value=_uiState.value.copy(
+                    error="Error ${e.message}"
+                )
+            }
+        }
+    }
+    fun agregarServicioDetalles(
+        servicioId: Int,
+        comentarios: String,
+        altura: Float,
+        circunferencia: Float
+    ) {
+        viewModelScope.launch {
+            try {
+                // Lógica para guardar los detalles del servicio
+                repository.guardarDetallesServicio(
+                    servicioId = servicioId,
+                    comentarios = comentarios,
+                    altura = altura,
+                    circunferencia = circunferencia,
+                    ID_US=uiState.value.id_Us,
+                    ID_ARBOL=uiState.value.id_Arbol
+                )
+            } catch (e: Exception) {
+                // Manejo de errores
+                println("Error al guardar detalles del servicio: ${e.message}")
+            }
+        }
+    }
+
 }
