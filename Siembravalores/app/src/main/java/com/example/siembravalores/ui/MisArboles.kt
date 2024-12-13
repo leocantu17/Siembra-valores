@@ -26,7 +26,8 @@ fun TreeList(
     consultaArbolesInfo: (Int) -> Unit,
     onNextButtonClicked: (Int) -> Unit,
     modifier: Modifier = Modifier,
-    uiState: SiembraValoresUiState
+    uiState: SiembraValoresUiState,
+    onNextButtonHistorial: (Int) -> Unit
 ) {
     // Estado para manejar la expansión de las tarjetas
     var expandedCardIndex by remember { mutableStateOf(-1) }
@@ -61,6 +62,7 @@ fun TreeList(
                                 consultaArbolesInfo(tree.ID_ARBOL)
                             }
                         },
+                        onNextButtonHistorial=onNextButtonHistorial,
                         arbolInfo = uiState.arbolesInfo.firstOrNull { it.ID_ARBOL == tree.ID_ARBOL },
                         onNextButtonClicked = onNextButtonClicked
                     )
@@ -77,7 +79,8 @@ fun TreeItem(
     isExpanded: Boolean,
     onExpandClick: () -> Unit,
     arbolInfo: infoArbol?,
-    onNextButtonClicked: (Int) -> Unit
+    onNextButtonClicked: (Int) -> Unit,
+    onNextButtonHistorial: (Int) -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -130,6 +133,17 @@ fun TreeItem(
                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
             ) {
                 Text("Servicio", color = Color.Black) // Texto del botón en negro
+            }
+            Button(
+                onClick = { tree.ID_ARBOL?.let { onNextButtonHistorial(it) } },
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(top = 8.dp)
+                    .height(35.dp), // Tamaño reducido
+                shape = RoundedCornerShape(50),
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
+            ) {
+                Text("Historial", color = Color.Black) // Texto del botón en negro
             }
 
             // Imagen expansora

@@ -60,7 +60,7 @@ fun ServiceTypeIcon(
         "fumigación" -> R.drawable.fumigar
         "riego" -> R.drawable.regar
         "medición" -> R.drawable.medir
-        "fertilización" -> R.drawable.fertilizar
+        "fertilizante" -> R.drawable.fertilizar
         else -> R.drawable.logo // Un ícono predeterminado si no coincide
     }
 
@@ -93,6 +93,7 @@ fun HistorialServiciosScreen(
     onConsulta: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+
     LaunchedEffect(key1 = true) {
         onConsulta()
     }

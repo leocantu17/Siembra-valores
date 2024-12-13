@@ -238,8 +238,18 @@ const alumno={
     try {
       const resultado=await sqlConn.request()
       .input('ID_US',sql.Int,datos.id)
-      .query(`SELECT S.TIPO,FORMAT(B.FECHA_SERVICIO,'dd/MM/yy') AS FECHA_SERVICIO,B.COMENTARIOS FROM SERVICIOS S JOIN BRINDAN B ON S.ID_SERVICIO=B.ID_SERVICIO JOIN ARBOL A
-              ON A.ID_ARBOL=B.ID_ARBOL JOIN ADOPTA AD ON B.ID_ARBOL=AD.ID_ARBOL WHERE AD.ID_US=@ID_US`)
+      .input("ID_ARBOL",sql.Int,datos.ID_ARBOL)
+      .query(`SELECT 
+    S.TIPO,
+    FORMAT(B.FECHA_SERVICIO,'dd/MM/yy') AS FECHA_SERVICIO,
+    B.COMENTARIOS 
+FROM SERVICIOS S 
+JOIN BRINDAN B ON S.ID_SERVICIO = B.ID_SERVICIO 
+JOIN ARBOL A ON A.ID_ARBOL = B.ID_ARBOL 
+JOIN ADOPTA AD ON B.ID_ARBOL = AD.ID_ARBOL 
+WHERE AD.ID_US = @ID_US AND AD.ID_ARBOL = @ID_ARBOL
+GROUP BY S.TIPO, B.FECHA_SERVICIO, B.COMENTARIOS
+	`)
       return objetoResultadoSQL(resultado)
     } catch (error) {
       throw error

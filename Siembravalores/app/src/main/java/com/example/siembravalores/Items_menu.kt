@@ -6,7 +6,6 @@ sealed class Items_menu(
     val ruta: String
 ){
     object Adoptar:Items_menu(R.drawable.adoptar,"Adoptar","Arboles")
-    object Historial:Items_menu(R.drawable.historial,"Historial","Historial")
     object misArboles:Items_menu(R.drawable.arboles,"Mis árboles","misArboles")
     object Perfil:Items_menu(R.drawable.perfil,"Perfil","Perfil")
     object Notificaciones:Items_menu(R.drawable.notificaciones,"Notificaciones","Notificaciones")

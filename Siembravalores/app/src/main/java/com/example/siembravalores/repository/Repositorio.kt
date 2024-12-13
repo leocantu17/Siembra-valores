@@ -50,8 +50,8 @@ class Repositorio {
     suspend fun notificacionLeida(ID_NOT:Int){
         return api.notificacionLeida(ID_NOT)
     }
-    suspend fun obtenerHistorialServicios(ID_US: Int):List<HistorialServicios>{
-        return api.getHistorialServicios(ID_US)
+    suspend fun obtenerHistorialServicios(ID_US: Int,ID_ARBOL:Int):List<HistorialServicios>{
+        return api.getHistorialServicios(ID_US,ID_ARBOL)
     }
     suspend fun guardarDetallesServicio(servicioId:Int,comentarios:String,altura:Float,circunferencia:Float,ID_US:Int,ID_ARBOL: Int){
         return api.agregarServicioApp(servicioId,comentarios,altura,circunferencia,ID_US,ID_ARBOL)

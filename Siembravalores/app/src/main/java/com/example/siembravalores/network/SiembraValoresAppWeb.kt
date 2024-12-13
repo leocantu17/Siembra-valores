@@ -107,7 +107,8 @@ interface SiembraValoresService {
 
     @GET("/rt-historial-servicios")
     suspend fun getHistorialServicios(
-        @Query("ID_US") ID_US:Int
+        @Query("ID_US") ID_US:Int,
+        @Query("ID_ARBOL") ID_ARBOL:Int
     ):List<HistorialServicios>
 
     @POST("/rt-agregar-servicio")

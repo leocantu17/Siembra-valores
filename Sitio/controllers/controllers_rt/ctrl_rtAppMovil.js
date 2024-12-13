@@ -24,9 +24,9 @@ const ctrl_rAppMovil={
     agregarServicio:async(req,res)=>{
         try {
             const {ID_ARBOL,ID_SERVICIO,COMENTARIOS,ALTURA,CIRCUNFERENCIA,ID_US}=req.query
-            const data={ID_US,TIPO,COMENTARIOS,ALTURA,CIRCUNFERENCIA,ID_ARBOL,ID_SERVICIO}
-            await appMovilDb.agregarServicioDb(data)
-            
+            console.log(ID_ARBOL,ID_SERVICIO,COMENTARIOS,ALTURA,CIRCUNFERENCIA,ID_US)
+            const data={ID_US,COMENTARIOS,ALTURA,CIRCUNFERENCIA,ID_ARBOL,ID_SERVICIO}
+            await appMovilDb.agregarServicioDb(data) 
         } catch (error) {
             console.log(error)
         }

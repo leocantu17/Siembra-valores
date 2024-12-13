@@ -31,7 +31,7 @@ router.get('/session', (req,res)=>{
 /*Rutas de la app movil */
 router.get("/rt-arboles-disponibles",appMovil.arbolesDisponibles)
 router.get("/rt-informacion-arbol",appMovil.informacionArbol)
-router.get("/rt-historial-serivicios",appMovil.historialServicios)
+router.get("/rt-historial-servicios",appMovil.historialServicios)
 router.get("/rt-notificaciones-alumno",appMovil.notificacionesAlumno)
 router.get("/rt-obtener-valores",appMovil.obtenerValores)
 router.get("/rt-obtener-info-arbol",appMovil.misArbolesInfo)

@@ -102,7 +102,6 @@ fun SiembraValoresApp(
             if (uiState.autenticado) { // Mostrar solo si autenticado es true
                 val items = listOf(
                     Items_menu.Adoptar,
-                    Items_menu.Historial,
                     Items_menu.misArboles,
                     Items_menu.Perfil,
                     Items_menu.Notificaciones
@@ -208,11 +207,15 @@ fun SiembraValoresApp(
                         viewModel.actualizarIDArbol(it)
                         navController.navigate(SiembraValoresScreen.agregarServicio.name)
                     },
-
+                    onNextButtonHistorial={
+                        viewModel.actualizarIDArbol(it)
+                        navController.navigate(SiembraValoresScreen.historial.name)
+                    },
                     uiState=uiState,
                     modifier= Modifier
                         .fillMaxSize()
-                        .padding(innerPadding)
+                        .padding(innerPadding),
+
 
                 )
             }
@@ -228,9 +231,8 @@ fun SiembraValoresApp(
                     consulta={viewModel.obtenerServicios()},
                     uiState=uiState,
                     onSelectionChange={viewModel.setServicio(it)},
-                    onServiceDetailsSubmit = { servicioId, comentarios, altura, circunferencia ->
+                    onServiceDetailsSubmit = {  comentarios, altura, circunferencia ->
                         viewModel.agregarServicioDetalles(
-                            servicioId,
                             comentarios,
                             altura,
                             circunferencia

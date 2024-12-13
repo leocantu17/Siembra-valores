@@ -310,7 +310,7 @@ class SiembraValoresViewModel(private val repository:Repositorio=Repositorio()):
     fun historialServicios(){
         viewModelScope.launch {
             try {
-                val response=repository.obtenerHistorialServicios(uiState.value.id_Us)
+                val response=repository.obtenerHistorialServicios(uiState.value.id_Us,uiState.value.id_Arbol)
                 _uiState.value=_uiState.value.copy(
                     historialServicios = response
                 )
@@ -322,7 +322,7 @@ class SiembraValoresViewModel(private val repository:Repositorio=Repositorio()):
         }
     }
     fun agregarServicioDetalles(
-        servicioId: Int,
+
         comentarios: String,
         altura: Float,
         circunferencia: Float
@@ -331,7 +331,7 @@ class SiembraValoresViewModel(private val repository:Repositorio=Repositorio()):
             try {
                 // Lógica para guardar los detalles del servicio
                 repository.guardarDetallesServicio(
-                    servicioId = servicioId,
+                    servicioId = uiState.value.ID_SERVICIO,
                     comentarios = comentarios,
                     altura = altura,
                     circunferencia = circunferencia,
