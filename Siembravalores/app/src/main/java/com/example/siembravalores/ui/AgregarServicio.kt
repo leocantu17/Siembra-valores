@@ -37,11 +37,12 @@ fun AddServiceScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
-            .padding(16.dp)
+            .padding(8.dp)
     ) {
         Text(
             text = "Selecciona un Servicio",
-            modifier = Modifier.padding(bottom = 16.dp)
+            modifier = Modifier.padding(bottom = 8.dp),
+            fontSize = 16.sp
         )
 
         uiState.servicios.forEach { servicio ->
@@ -53,10 +54,9 @@ fun AddServiceScreen(
                         onClick = {
                             selectedServicioId = servicio.ID_SERVICIO
                             onSelectionChange(servicio.ID_SERVICIO)
-                            println("Servicio seleccionado: ${servicio.TIPO}")
                         }
                     )
-                    .padding(vertical = 8.dp),
+                    .padding(vertical = 2.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 RadioButton(
@@ -67,20 +67,21 @@ fun AddServiceScreen(
                     }
                 )
 
-                Spacer(modifier = Modifier.width(8.dp))
+                Spacer(modifier = Modifier.width(4.dp))
 
                 Text(
                     text = servicio.TIPO ?: "Servicio sin nombre",
-                    color = Color.Black
+                    color = Color.Black,
+                    fontSize = 12.sp
                 )
             }
         }
 
         Text(
             text = "Comentarios",
-            fontSize = 16.sp,
+            fontSize = 14.sp,
             color = Color.Black,
-            modifier = Modifier.padding(vertical = 8.dp)
+            modifier = Modifier.padding(vertical = 4.dp)
         )
 
         BasicTextField(
@@ -88,52 +89,52 @@ fun AddServiceScreen(
             onValueChange = { comments = it },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(100.dp)
-                .padding(8.dp)
+                .height(60.dp)
+                .padding(4.dp)
                 .background(color = Color.LightGray),
             keyboardOptions = KeyboardOptions.Default,
             textStyle = LocalTextStyle.current.copy(color = Color.Black)
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         if (uiState.ID_SERVICIO == 9) {
             TextField(
                 value = height,
                 onValueChange = { height = it },
-                label = { Text("Altura", color = Color.Black) },
+                label = { Text("Altura", color = Color.Black, fontSize = 12.sp) },
                 modifier = Modifier.fillMaxWidth(),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                textStyle = LocalTextStyle.current.copy(color = Color.Black)
+                textStyle = LocalTextStyle.current.copy(color = Color.Black, fontSize = 12.sp)
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
             TextField(
                 value = circumference,
                 onValueChange = { circumference = it },
-                label = { Text("Circunferencia", color = Color.Black) },
+                label = { Text("Circunferencia", color = Color.Black, fontSize = 12.sp) },
                 modifier = Modifier.fillMaxWidth(),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                textStyle = LocalTextStyle.current.copy(color = Color.Black)
+                textStyle = LocalTextStyle.current.copy(color = Color.Black, fontSize = 12.sp)
             )
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(12.dp))
+        }
 
-            Button(
-                onClick = {
-                    onServiceDetailsSubmit(
-                        selectedServicioId ?: 0,
-                        comments,
-                        height.toFloatOrNull() ?: 0f,
-                        circumference.toFloatOrNull() ?: 0f
-                    )
-                    onNextButtonClicked()
-                },
-                modifier = Modifier.align(Alignment.CenterHorizontally)
-            ) {
-                Text(text = "Agregar", color = Color.Black)
-            }
+        Button(
+            onClick = {
+                onServiceDetailsSubmit(
+                    selectedServicioId ?: 0,
+                    comments,
+                    height.toFloatOrNull() ?: 0f,
+                    circumference.toFloatOrNull() ?: 0f
+                )
+                onNextButtonClicked()
+            },
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        ) {
+            Text(text = "Agregar", color = Color.Black, fontSize = 14.sp)
         }
     }
 }
