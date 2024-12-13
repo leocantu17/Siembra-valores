@@ -1,6 +1,7 @@
 package com.example.siembravalores.ui
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.*
@@ -23,7 +24,7 @@ fun PerfilScreen(
     consulta: () -> Unit,
     uiState: SiembraValoresUiState
 ) {
-    LaunchedEffect(key1=true) {
+    LaunchedEffect(key1 = true) {
         consulta()
     }
 
@@ -33,6 +34,7 @@ fun PerfilScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
+            .background(Color.White) // Fondo blanco
             .padding(16.dp)
     ) {
         // Botón en la esquina superior derecha
@@ -57,7 +59,6 @@ fun PerfilScreen(
 
             Image(
                 painter = painterResource(id = R.drawable.perfil),
-
                 contentDescription = "Imagen de perfil",
                 modifier = Modifier
                     .size(100.dp)
@@ -77,7 +78,8 @@ fun PerfilScreen(
                     append(perfil?.AP_M ?: "")
                 }.trim(),
                 fontSize = 20.sp,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                color = Color.Black // Texto negro
             )
 
             // Correo
@@ -122,7 +124,7 @@ fun ProfileInfo(label: String, value: String) {
             .padding(vertical = 4.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(text = label, fontWeight = FontWeight.Bold)
-        Text(text = value)
+        Text(text = label, fontWeight = FontWeight.Bold, color = Color.Black) // Texto negro
+        Text(text = value, color = Color.Black) // Texto negro
     }
 }

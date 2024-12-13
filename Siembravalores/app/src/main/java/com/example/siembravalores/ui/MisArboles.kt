@@ -16,7 +16,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.siembravalores.R
-import com.example.siembravalores.data.Arboles
 import com.example.siembravalores.data.SiembraValoresUiState
 import com.example.siembravalores.data.infoArbol
 import com.example.siembravalores.data.misArbolesData
@@ -33,39 +32,43 @@ fun TreeList(
     var expandedCardIndex by remember { mutableStateOf(-1) }
 
     // Efecto para cargar los árboles al iniciar
-    LaunchedEffect(key1 =true) {
+    LaunchedEffect(key1 = true) {
         consultaArboles()
     }
     when {
         uiState.isLoading -> {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.White), // Fondo blanco
+                contentAlignment = Alignment.Center
+            ) {
                 CircularProgressIndicator()
             }
-        }else->{
-        LazyColumn(modifier = modifier) {
-            itemsIndexed(uiState.misArboles) { index, tree ->
-                TreeItem(
-                    tree = tree,
-                    isExpanded = expandedCardIndex == index,
-                    onExpandClick = {
-                        // Alternar expansión de la tarjeta
-                        expandedCardIndex = if (expandedCardIndex == index) -1 else index
+        }
+        else -> {
+            LazyColumn(modifier = modifier.background(Color.White)) { // Fondo blanco
+                itemsIndexed(uiState.misArboles) { index, tree ->
+                    TreeItem(
+                        tree = tree,
+                        isExpanded = expandedCardIndex == index,
+                        onExpandClick = {
+                            // Alternar expansión de la tarjeta
+                            expandedCardIndex = if (expandedCardIndex == index) -1 else index
 
-                        // Cargar información específica del árbol cuando se expande
-                        if (expandedCardIndex == index) {
-                            consultaArbolesInfo(tree.ID_ARBOL)
-                        }
-                    },
-                    arbolInfo = uiState.arbolesInfo.firstOrNull { it.ID_ARBOL == tree.ID_ARBOL },
-                    onNextButtonClicked = onNextButtonClicked
-                )
-                Spacer(modifier = Modifier.height(8.dp))
+                            // Cargar información específica del árbol cuando se expande
+                            if (expandedCardIndex == index) {
+                                consultaArbolesInfo(tree.ID_ARBOL)
+                            }
+                        },
+                        arbolInfo = uiState.arbolesInfo.firstOrNull { it.ID_ARBOL == tree.ID_ARBOL },
+                        onNextButtonClicked = onNextButtonClicked
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                }
             }
         }
-
     }
-    }
-
 }
 
 @Composable
@@ -79,7 +82,8 @@ fun TreeItem(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp),
+            .padding(8.dp)
+            .background(Color.White), // Fondo blanco
         shape = RoundedCornerShape(8.dp),
         elevation = CardDefaults.cardElevation(4.dp)
     ) {
@@ -104,7 +108,8 @@ fun TreeItem(
                     Text(
                         text = tree.NOMBRE_VALOR ?: "Árbol sin nombre",
                         style = MaterialTheme.typography.bodyLarge,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Black // Texto negro
                     )
                     Text(
                         text = tree.DESCRIPCION ?: "Sin descripción",
@@ -116,7 +121,7 @@ fun TreeItem(
 
             // Botón de servicios bajo la imagen
             Button(
-                onClick = {tree.ID_ARBOL?.let { onNextButtonClicked(it) }},
+                onClick = { tree.ID_ARBOL?.let { onNextButtonClicked(it) } },
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .padding(top = 8.dp)
@@ -124,7 +129,7 @@ fun TreeItem(
                 shape = RoundedCornerShape(50),
                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
             ) {
-                Text("Servicio")
+                Text("Servicio", color = Color.Black) // Texto del botón en negro
             }
 
             // Imagen expansora
@@ -147,28 +152,53 @@ fun TreeItem(
             if (isExpanded) {
                 arbolInfo?.let { info ->
                     Column(modifier = Modifier.padding(top = 8.dp)) {
-                        Text("Nombre científico: ${info.NOMBRE_CIENTIFICO ?: "No disponible"}",
-                            style = MaterialTheme.typography.bodyLarge)
-                        Text("Fecha de plantación: ${info.FECHA_PLANTADO ?: "No disponible"}",
-                            style = MaterialTheme.typography.bodyLarge)
-                        Text("Descripción: ${info.DESCRIPCION ?: "No disponible"}",
-                            style = MaterialTheme.typography.bodyLarge)
-                        Text("Endémico: ${if (info.ENDEMICO) "Sí" else "No"}",
-                            style = MaterialTheme.typography.bodyLarge)
-                        Text("Altura: ${info.ALTURA ?: "No disponible"}",
-                            style = MaterialTheme.typography.bodyLarge)
-                        Text("Circunferencia: ${info.CIRCUNFERENCIA ?: "No disponible"}",
-                            style = MaterialTheme.typography.bodyLarge)
-                        Text("Valor: ${info.VALOR ?: "No disponible"}",
-                            style = MaterialTheme.typography.bodyLarge)
-                        Text("Colonia: ${info.COLONIA ?: "No disponible"}",
-                            style = MaterialTheme.typography.bodyLarge)
+                        Text(
+                            text = "Nombre científico: ${info.NOMBRE_CIENTIFICO ?: "No disponible"}",
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = Color.Black // Texto negro
+                        )
+                        Text(
+                            text = "Fecha de plantación: ${info.FECHA_PLANTADO ?: "No disponible"}",
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = Color.Black // Texto negro
+                        )
+                        Text(
+                            text = "Descripción: ${info.DESCRIPCION ?: "No disponible"}",
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = Color.Black // Texto negro
+                        )
+                        Text(
+                            text = "Endémico: ${if (info.ENDEMICO) "Sí" else "No"}",
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = Color.Black // Texto negro
+                        )
+                        Text(
+                            text = "Altura: ${info.ALTURA ?: "No disponible"}",
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = Color.Black // Texto negro
+                        )
+                        Text(
+                            text = "Circunferencia: ${info.CIRCUNFERENCIA ?: "No disponible"}",
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = Color.Black // Texto negro
+                        )
+                        Text(
+                            text = "Valor: ${info.VALOR ?: "No disponible"}",
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = Color.Black // Texto negro
+                        )
+                        Text(
+                            text = "Colonia: ${info.COLONIA ?: "No disponible"}",
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = Color.Black // Texto negro
+                        )
                     }
                 }
             }
         }
     }
 }
+
 
 
 

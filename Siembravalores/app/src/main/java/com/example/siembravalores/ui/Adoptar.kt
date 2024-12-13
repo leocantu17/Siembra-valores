@@ -1,6 +1,7 @@
 package com.example.siembravalores.ui
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -37,14 +38,24 @@ fun PantallaAdopcion(
     when {
         // Loading state
         uiState.isLoading -> {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.White), // Fondo blanco
+                contentAlignment = Alignment.Center
+            ) {
                 CircularProgressIndicator()
             }
         }
 
         // Error state
         uiState.error.isNotEmpty() -> {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.White), // Fondo blanco
+                contentAlignment = Alignment.Center
+            ) {
                 Text(
                     text = "Error: ${uiState.error}",
                     color = Color.Red,
@@ -57,6 +68,7 @@ fun PantallaAdopcion(
         arbol == null -> {
             Text(
                 text = "No hay árboles disponibles",
+                color = Color.Black, // Texto negro
                 modifier = Modifier.padding(16.dp)
             )
         }
@@ -66,6 +78,7 @@ fun PantallaAdopcion(
             Column(
                 modifier = modifier
                     .fillMaxSize()
+                    .background(Color.White) // Fondo blanco
                     .padding(16.dp),
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.Start
@@ -96,7 +109,7 @@ fun PantallaAdopcion(
                                 text = it,
                                 fontSize = 16.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = Color.Black
+                                color = Color.Black // Texto negro
                             )
                         }
                         arbol.DESCRIPCION?.let {
@@ -129,7 +142,7 @@ fun PantallaAdopcion(
                             TextField(
                                 value = selectedOption.ifEmpty { "Selecciona valor" },
                                 onValueChange = { },
-                                label = { Text("Valores") },
+                                label = { Text("Valores", color = Color.Black) }, // Texto negro
                                 readOnly = true,
                                 trailingIcon = {
                                     ExposedDropdownMenuDefaults.TrailingIcon(
@@ -146,7 +159,7 @@ fun PantallaAdopcion(
                             ) {
                                 uiState.valores.forEach { valor ->
                                     DropdownMenuItem(
-                                        text = { Text(valor.VALOR ?: "Sin nombre") },
+                                        text = { Text(valor.VALOR ?: "Sin nombre", color = Color.Black) }, // Texto negro
                                         onClick = {
                                             // Update selected option
                                             setSelectedOption(valor.VALOR ?: "")
@@ -171,7 +184,8 @@ fun PantallaAdopcion(
                     Text(
                         text = "Valor: ${arbol.NOMBRE_VALOR}",
                         fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Black // Texto negro
                     )
                 }
 
@@ -181,11 +195,13 @@ fun PantallaAdopcion(
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Text(
                         text = "Fecha de plantado: ${arbol.FECHA_PLANTADO ?: "No disponible"}",
-                        fontSize = 14.sp
+                        fontSize = 14.sp,
+                        color = Color.Black // Texto negro
                     )
                     Text(
                         text = "Colonia: ${arbol.COLONIA ?: "No especificada"}",
-                        fontSize = 14.sp
+                        fontSize = 14.sp,
+                        color = Color.Black // Texto negro
                     )
                 }
 
@@ -196,7 +212,7 @@ fun PantallaAdopcion(
                     onClick = onNextButtonClicked,
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 ) {
-                    Text("Adoptar")
+                    Text("Adoptar", color = Color.Black) // Texto negro
                 }
             }
         }

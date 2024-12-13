@@ -2,6 +2,7 @@ package com.example.siembravalores.ui
 
 import android.util.Log
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -34,12 +35,22 @@ fun Arboles(
 
     when {
         uiState.isLoading -> {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.White), // Fondo blanco
+                contentAlignment = Alignment.Center
+            ) {
                 CircularProgressIndicator()
             }
         }
         uiState.error.isNotEmpty() -> {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.White), // Fondo blanco
+                contentAlignment = Alignment.Center
+            ) {
                 Text(
                     text = "Error: ${uiState.error}",
                     color = Color.Red,
@@ -48,7 +59,11 @@ fun Arboles(
             }
         }
         else -> {
-            Column(modifier = Modifier.fillMaxSize()) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.White) // Fondo blanco
+            ) {
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(2),
                     modifier = Modifier
@@ -77,7 +92,8 @@ fun ArbolGridItem(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(4.dp),
+            .padding(4.dp)
+            .background(Color.White), // Fondo blanco
         elevation = CardDefaults.cardElevation(4.dp)
     ) {
         Column(
@@ -94,28 +110,27 @@ fun ArbolGridItem(
                 text = arbol.NOMBRE ?: "Sin nombre",
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
+                color = Color.Black, // Texto negro
                 modifier = Modifier.padding(top = 8.dp)
             )
 
-            // Added description text
             Text(
                 text = arbol.DESCRIPCION ?: "Sin descripción disponible",
                 fontSize = 12.sp,
                 textAlign = TextAlign.Center,
+                color = Color.Black, // Texto negro
                 modifier = Modifier
                     .padding(vertical = 8.dp)
                     .fillMaxWidth()
             )
 
-            // Added button
             Button(
                 onClick = {
-                    // Assuming you want to pass the ID or some identifier when the button is clicked
                     arbol.ID?.let { onNextButtonClicked(it) }
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Seleccionar")
+                Text("Seleccionar", color = Color.Black) // Texto negro
             }
         }
     }
