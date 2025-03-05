@@ -198,7 +198,6 @@ const alumno={
 	              ELSE V.VALOR 
 	              END AS NOMBRE
                 FROM ARBOL A LEFT JOIN VALORES V ON A.ID_VALOR=V.ID_VALOR  `)
-                // WHERE A.ID_COL=(SELECT ID_COL FROM USUARIO WHERE ID_US=@ID_US)
         return objetoResultadoSQL(resultado)
     } catch (error) {
       throw error

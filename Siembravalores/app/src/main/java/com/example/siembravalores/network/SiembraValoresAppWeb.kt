@@ -37,7 +37,7 @@ private val client = OkHttpClient.Builder()
     .build()
 
 // URL base con posibilidad de cambiar fácilmente
-private const val BASE_URL = "http://192.168.0.4:3000"
+private const val BASE_URL = "http://172.16.185.237:3000"
 
 // Configuración de Retrofit más detallada
 private val retrofit = Retrofit.Builder()
