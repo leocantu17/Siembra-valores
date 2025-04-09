@@ -27,8 +27,8 @@ data class SiembraValoresUiState(
 
 @Serializable
 data class Usuario (
-    val id: Int,
-    val nombre: String? = null
+    val ID_US: Int,
+    val NOMBRE: String? = null
 )
 
 @Serializable
@@ -102,4 +102,5 @@ data class HistorialServicios(
     val FECHA_SERVICIO:String?=null,
     val COMENTARIOS:String?=null
 )
+
 

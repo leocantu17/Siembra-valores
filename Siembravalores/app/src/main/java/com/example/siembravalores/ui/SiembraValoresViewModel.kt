@@ -5,7 +5,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.siembravalores.data.Notificacion
 import com.example.siembravalores.data.SiembraValoresUiState
 import com.example.siembravalores.repository.Repositorio
 import kotlinx.coroutines.delay
@@ -34,56 +33,22 @@ class SiembraValoresViewModel(private val repository:Repositorio=Repositorio()):
             currentState.copy(correo=correoUsuario)
         }
     }
-    init{
-        notificacionesPeriodicas()
-        notificacionesAlumno()
-    }
-
-    fun notificacionesPeriodicas() {
-        viewModelScope.launch{
-            while(seguir){
-                try {
-                    val response=repository.agregarNot()
-                    delay(5*60*1000)
-                }catch (e:Exception){
-                    _uiState.value=_uiState.value.copy(
-                        error="Error al actualizar: ${e.message}",
-
-                    )
-                    this@SiembraValoresViewModel.seguir =false
-                }
-            }
-        }
-
-    }
-
-    fun notificacionesAlumno() {
-        if(uiState.value.autenticado){
-            viewModelScope.launch {
-                while (true){
-                    try{
-                        val response=repository.getNotificaciones(uiState.value.id_Us)
-                    }catch (e:Exception){
-                        _uiState.value=_uiState.value.copy(
-                            error="Error al actualizar: ${e.message}",
-
-                        )
-                        this@SiembraValoresViewModel.seguir =false
-                    }
-                }
-            }
-        }else{
-
-        }
-
-    }
-
     fun updateContrasena(contrasenaUsuario:String){
         contrasena=contrasenaUsuario
         _uiState.update { currentState->
             currentState.copy(contrasena=contrasenaUsuario)
         }
     }
+//    init{
+//        notificacionesPeriodicas()
+//        notificacionesAlumno()
+//    }
+
+
+
+
+
+
 
     fun updateNombreArbol(nombre:String){
         nombreArbol=nombre
@@ -97,7 +62,7 @@ class SiembraValoresViewModel(private val repository:Repositorio=Repositorio()):
                 val usuarios = repository.obtenerUsuarios(correo, contrasena)
 
                 if (usuarios.isNotEmpty()) {
-                    val primerId = usuarios.first().id
+                    val primerId = usuarios.first().ID_US
                     _uiState.value = uiState.value.copy(
                             usuario = usuarios,
                             id_Us = primerId,
@@ -116,6 +81,40 @@ class SiembraValoresViewModel(private val repository:Repositorio=Repositorio()):
                         error = e.localizedMessage ?: "Error de autenticación"
                 )
             }
+        }
+    }
+
+
+    fun actualizarIDArbol(id: Int){
+        _uiState.update { currentState->
+            currentState.copy(id_Arbol = id)
+
+        }
+    }
+
+
+     fun upadteArbolValue(id:String,name:String){
+         _uiState.update { currentState ->
+             val updatedArboles = currentState.arboles.map { arbol ->
+                 // Update the first (or only) tree's value
+                 if (arbol == currentState.arboles.first()) {
+                     arbol.copy(
+                         ID_VALOR = id,
+                         NOMBRE_VALOR = name
+                     )
+                 } else {
+                     arbol
+                 }
+             }
+
+             currentState.copy(arboles = updatedArboles)
+         }
+     }
+
+
+    fun setServicio(id: Int){
+        _uiState.update{currentState->
+            currentState.copy(ID_SERVICIO=id)
         }
     }
     fun valores(){
@@ -165,12 +164,6 @@ class SiembraValoresViewModel(private val repository:Repositorio=Repositorio()):
             }
         }
     }
-    fun actualizarIDArbol(id: Int){
-        _uiState.update { currentState->
-            currentState.copy(id_Arbol = id)
-
-        }
-    }
     fun InformacionArbol(){
         viewModelScope.launch {
             try {
@@ -212,23 +205,6 @@ class SiembraValoresViewModel(private val repository:Repositorio=Repositorio()):
             }
         }
     }
-     fun upadteArbolValue(id:String,name:String){
-         _uiState.update { currentState ->
-             val updatedArboles = currentState.arboles.map { arbol ->
-                 // Update the first (or only) tree's value
-                 if (arbol == currentState.arboles.first()) {
-                     arbol.copy(
-                         ID_VALOR = id,
-                         NOMBRE_VALOR = name
-                     )
-                 } else {
-                     arbol
-                 }
-             }
-
-             currentState.copy(arboles = updatedArboles)
-         }
-     }
     fun misArboles(id:Int){
 
         viewModelScope.launch {
@@ -275,11 +251,6 @@ class SiembraValoresViewModel(private val repository:Repositorio=Repositorio()):
                     error = "Error ${e.message}"
                 )
             }
-        }
-    }
-    fun setServicio(id: Int){
-        _uiState.update{currentState->
-            currentState.copy(ID_SERVICIO=id)
         }
     }
     fun obtenerPerfil(){
@@ -344,5 +315,43 @@ class SiembraValoresViewModel(private val repository:Repositorio=Repositorio()):
             }
         }
     }
+    fun notificacionesAlumno() {
+        if(uiState.value.autenticado){
+            viewModelScope.launch {
+                while (true){
+                    try{
+                        val response=repository.getNotificaciones(uiState.value.id_Us)
+                    }catch (e:Exception){
+                        _uiState.value=_uiState.value.copy(
+                            error="Error al actualizar: ${e.message}",
+
+                            )
+                        this@SiembraValoresViewModel.seguir =false
+                    }
+                }
+            }
+        }else{
+
+        }
+
+    }
+    fun notificacionesPeriodicas() {
+        viewModelScope.launch{
+            while(seguir){
+                try {
+                    val response=repository.agregarNot()
+                    delay(5*60*1000)
+                }catch (e:Exception){
+                    _uiState.value=_uiState.value.copy(
+                        error="Error al actualizar: ${e.message}",
+
+                        )
+                    this@SiembraValoresViewModel.seguir =false
+                }
+            }
+        }
+
+    }
+
 
 }

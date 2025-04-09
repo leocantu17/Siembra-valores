@@ -38,10 +38,10 @@ fun LoginScreen(
     onNextButtonClicked: () -> Unit,
     navController: NavController
 ) {
-    Text(text = "${uiState.error}", color = Color.Black) // Texto negro
+
     LaunchedEffect(key1 = uiState.autenticado) {
         if (uiState.autenticado) {
-            navController.navigate(SiembraValoresScreen.Arboles.name) {
+            navController.navigate(SiembraValoresScreen.misArboles.name) {
                 popUpTo(SiembraValoresScreen.Login.name) { inclusive = true }
             }
         }
@@ -59,6 +59,14 @@ fun LoginScreen(
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.Center
         ) {
+            Text(text = "Error")
+            if(uiState.error!=""){
+
+                Text(text = "${uiState.error}", color = Color.Black) // Texto negro
+            }else{
+                Text(text = "Hola", color = Color.Black) // Texto negro
+            }
+            Text(text = "${uiState.autenticado}")
             Text(
                 text = stringResource(id = R.string.registro),
                 color = Color.Black, // Texto negro

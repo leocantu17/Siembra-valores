@@ -9,13 +9,13 @@ import com.example.siembravalores.data.Usuario
 import com.example.siembravalores.data.Valores
 import com.example.siembravalores.data.infoArbol
 import com.example.siembravalores.data.misArbolesData
-import com.example.siembravalores.network.SiembraValoresApp
+import com.example.siembravalores.network.SiembraValoresAppWeb
 
 class Repositorio {
-    private val api = SiembraValoresApp.retrofitService
+    private val api = SiembraValoresAppWeb.retrofitService
 
     suspend fun obtenerUsuarios(correo:String,contrasena:String):List<Usuario> {
-        return api.getUsuario(correo,contrasena)
+        return api.getUsuario("login",correo,contrasena)
     }
     suspend fun obtenerArboles(id:Int):List<Arboles>{
         return api.getArboles(id)
@@ -57,4 +57,7 @@ class Repositorio {
         return api.agregarServicioApp(servicioId,comentarios,altura,circunferencia,ID_US,ID_ARBOL)
     }
 
+
 }
+
+

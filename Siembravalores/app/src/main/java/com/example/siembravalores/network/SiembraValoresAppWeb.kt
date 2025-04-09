@@ -14,6 +14,7 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import kotlinx.serialization.json.Json
+import retrofit2.http.Field
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
@@ -37,7 +38,7 @@ private val client = OkHttpClient.Builder()
     .build()
 
 // URL base con posibilidad de cambiar fácilmente
-private const val BASE_URL = "http://172.16.185.237:3000"
+private const val BASE_URL = "http://172.16.184.108"
 
 // Configuración de Retrofit más detallada
 private val retrofit = Retrofit.Builder()
@@ -48,8 +49,9 @@ private val retrofit = Retrofit.Builder()
 
 // Interfaz de servicio con manejo de errores más robusto
 interface SiembraValoresService {
-    @POST("/rt-iniciar-sesion-app")
+    @POST("/Siembra_valores/A.php")
     suspend fun getUsuario(
+        @Query("endpoint") endPoint:String,
         @Query("correo") correo: String,
         @Query("contrasena") contrasena: String
     ): List<Usuario>
@@ -97,7 +99,7 @@ interface SiembraValoresService {
 
     @GET ("/rt-notificaciones-alumno")
     suspend fun obtenerNotificaciones(
-      @Query("ID_US") ID_US: Int
+        @Query("ID_US") ID_US: Int
     ):List<Notificacion>
 
     @POST("/rt-notificacion-leida")
@@ -123,7 +125,7 @@ interface SiembraValoresService {
 }
 
 // Objeto singleton para acceder al servicio
-object SiembraValoresApp {
+object SiembraValoresAppWeb {
     val retrofitService: SiembraValoresService by lazy {
         retrofit.create(SiembraValoresService::class.java)
     }

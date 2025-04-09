@@ -169,34 +169,34 @@ fun SiembraValoresApp(
                         navController
                     )
             }
-            composable(route=SiembraValoresScreen.Arboles.name){
-                val uiState by viewModel.uiState.collectAsState()
-                Arboles(
-                    onNextButtonClicked={
-                        navController.navigate(SiembraValoresScreen.Adoptar.name)
-                        viewModel.actualizarIDArbol(it)
-                    },
-                    consulta={viewModel.arbolesDisponibles()},
-                    uiState =uiState
-                )
-            }
-            composable(route = SiembraValoresScreen.Adoptar.name) {
-                val uiState by viewModel.uiState.collectAsState()
-                PantallaAdopcion(
-                    onNextButtonClicked ={
-                        navController.navigate(SiembraValoresScreen.misArboles.name)
-                        viewModel.AdoptarArbol()
-                    },
-                    consulta ={
-                        viewModel.InformacionArbol()
-                        viewModel.valores() },
-                    InformacionArbol =uiState.arboles,
-                    onValueChange ={ id, name->
-                        viewModel.upadteArbolValue(id, name.toString())
-                    },
-                    uiState =uiState
-                )
-            }
+//            composable(route=SiembraValoresScreen.Arboles.name){
+//                val uiState by viewModel.uiState.collectAsState()
+//                Arboles(
+//                    onNextButtonClicked={
+//                        navController.navigate(SiembraValoresScreen.Adoptar.name)
+//                        viewModel.actualizarIDArbol(it)
+//                    },
+//                    consulta={viewModel.arbolesDisponibles()},
+//                    uiState =uiState
+//                )
+//            }
+//            composable(route = SiembraValoresScreen.Adoptar.name) {
+//                val uiState by viewModel.uiState.collectAsState()
+//                PantallaAdopcion(
+//                    onNextButtonClicked ={
+//                        navController.navigate(SiembraValoresScreen.misArboles.name)
+//                        //viewModel.AdoptarArbol()
+//                    },
+//                    consulta ={
+//                        viewModel.InformacionArbol()
+//                        viewModel.valores() },
+//                    InformacionArbol =uiState.arboles,
+//                    onValueChange ={ id, name->
+//                        viewModel.upadteArbolValue(id, name.toString())
+//                    },
+//                    uiState =uiState
+//                )
+//            }
             composable(route = SiembraValoresScreen.misArboles.name) {
                 val uiState by viewModel.uiState.collectAsState()
                 TreeList(
