@@ -29,12 +29,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.siembravalores.ui.AddServiceScreen
-import com.example.siembravalores.ui.Arboles
 import com.example.siembravalores.ui.HistorialServiciosScreen
 import com.example.siembravalores.ui.InicioScreen
 import com.example.siembravalores.ui.LoginScreen
 import com.example.siembravalores.ui.NotificacionesScreen
-import com.example.siembravalores.ui.PantallaAdopcion
 import com.example.siembravalores.ui.PerfilScreen
 import com.example.siembravalores.ui.SiembraValoresViewModel
 import com.example.siembravalores.ui.TreeList
@@ -101,7 +99,6 @@ fun SiembraValoresApp(
             val uiState by viewModel.uiState.collectAsState()
             if (uiState.autenticado) { // Mostrar solo si autenticado es true
                 val items = listOf(
-                    Items_menu.Adoptar,
                     Items_menu.misArboles,
                     Items_menu.Perfil,
                     Items_menu.Notificaciones

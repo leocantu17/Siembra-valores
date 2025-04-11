@@ -31,11 +31,11 @@ fun TreeList(
 ) {
     // Estado para manejar la expansión de las tarjetas
     var expandedCardIndex by remember { mutableStateOf(-1) }
-
     // Efecto para cargar los árboles al iniciar
     LaunchedEffect(key1 = true) {
         consultaArboles()
     }
+
     when {
         uiState.isLoading -> {
             Box(
@@ -48,7 +48,9 @@ fun TreeList(
             }
         }
         else -> {
-            LazyColumn(modifier = modifier.background(Color.White)) { // Fondo blanco
+            LazyColumn(modifier = modifier.background(Color.White)) {
+
+                // Fondo blanco
                 itemsIndexed(uiState.misArboles) { index, tree ->
                     TreeItem(
                         tree = tree,
@@ -62,6 +64,7 @@ fun TreeList(
                                 consultaArbolesInfo(tree.ID_ARBOL)
                             }
                         },
+                        uiState,
                         onNextButtonHistorial=onNextButtonHistorial,
                         arbolInfo = uiState.arbolesInfo.firstOrNull { it.ID_ARBOL == tree.ID_ARBOL },
                         onNextButtonClicked = onNextButtonClicked
@@ -78,6 +81,7 @@ fun TreeItem(
     tree: misArbolesData,
     isExpanded: Boolean,
     onExpandClick: () -> Unit,
+    uiState: SiembraValoresUiState,
     arbolInfo: infoArbol?,
     onNextButtonClicked: (Int) -> Unit,
     onNextButtonHistorial: (Int) -> Unit
@@ -109,7 +113,7 @@ fun TreeItem(
 
                 Column {
                     Text(
-                        text = tree.NOMBRE_VALOR ?: "Árbol sin nombre",
+                        text = tree.VALOR_ASOCIADO ?: "Árbol sin nombre",
                         style = MaterialTheme.typography.bodyLarge,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black // Texto negro
@@ -177,27 +181,12 @@ fun TreeItem(
                             color = Color.Black // Texto negro
                         )
                         Text(
-                            text = "Descripción: ${info.DESCRIPCION ?: "No disponible"}",
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = Color.Black // Texto negro
-                        )
-                        Text(
                             text = "Endémico: ${if (info.ENDEMICO) "Sí" else "No"}",
                             style = MaterialTheme.typography.bodyLarge,
                             color = Color.Black // Texto negro
                         )
                         Text(
-                            text = "Altura: ${info.ALTURA ?: "No disponible"}",
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = Color.Black // Texto negro
-                        )
-                        Text(
-                            text = "Circunferencia: ${info.CIRCUNFERENCIA ?: "No disponible"}",
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = Color.Black // Texto negro
-                        )
-                        Text(
-                            text = "Valor: ${info.VALOR ?: "No disponible"}",
+                            text = "Valor: ${info.VALOR_ASOCIADO ?: "No disponible"}",
                             style = MaterialTheme.typography.bodyLarge,
                             color = Color.Black // Texto negro
                         )

@@ -22,7 +22,6 @@ data class SiembraValoresUiState(
     val nombreArbol:String="",
     val ID_SERVICIO:Int=0,
     var isLoading:Boolean=false
-
 )
 
 @Serializable
@@ -56,16 +55,14 @@ data class infoArbol(
     val FECHA_PLANTADO: String?=null,
     val DESCRIPCION: String?=null,
     val ENDEMICO:Boolean=false,
-    val ALTURA:String?=null,
-    val CIRCUNFERENCIA:String?=null,
-    val VALOR:String?=null,
+    val VALOR_ASOCIADO:String?=null,
     val COLONIA: String?=null
 )
 
 @Serializable
 data class misArbolesData(
     val ID_ARBOL: Int=0,
-    val NOMBRE_VALOR: String?=null,
+    val VALOR_ASOCIADO: String?=null,
     val DESCRIPCION: String?=null
 )
 
@@ -98,7 +95,7 @@ data class Notificacion(
 
 @Serializable
 data class HistorialServicios(
-    val TIPO: String?=null,
+    val NOMBRE_SERVICIO: String?=null,
     val FECHA_SERVICIO:String?=null,
     val COMENTARIOS:String?=null
 )

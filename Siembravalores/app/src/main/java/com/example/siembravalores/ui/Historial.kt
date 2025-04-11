@@ -30,7 +30,7 @@ fun HistorialServiciosCard(
             verticalAlignment = Alignment.CenterVertically
         ) {
             ServiceTypeIcon(
-                serviceType = historialServicio.TIPO ?: "N/A",
+                serviceType = historialServicio.NOMBRE_SERVICIO ?: "N/A",
                 modifier = Modifier
                     .size(64.dp)
                     .padding(end = 16.dp)
@@ -60,7 +60,7 @@ fun ServiceTypeIcon(
         "fumigación" -> R.drawable.fumigar
         "riego" -> R.drawable.regar
         "medición" -> R.drawable.medir
-        "fertilizante" -> R.drawable.fertilizar
+        "fertilización" -> R.drawable.fertilizar
         else -> R.drawable.logo // Un ícono predeterminado si no coincide
     }
 

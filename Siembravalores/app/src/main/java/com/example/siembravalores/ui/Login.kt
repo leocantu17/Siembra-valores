@@ -59,14 +59,12 @@ fun LoginScreen(
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.Center
         ) {
-            Text(text = "Error")
             if(uiState.error!=""){
 
                 Text(text = "${uiState.error}", color = Color.Black) // Texto negro
             }else{
                 Text(text = "Hola", color = Color.Black) // Texto negro
             }
-            Text(text = "${uiState.autenticado}")
             Text(
                 text = stringResource(id = R.string.registro),
                 color = Color.Black, // Texto negro

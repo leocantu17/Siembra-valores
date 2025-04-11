@@ -108,7 +108,7 @@ fun AddServiceScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         // Conditional rendering for specific service (ID 9)
-        if (uiState.ID_SERVICIO == 9) {
+        if (uiState.ID_SERVICIO == 4) {
             // Height input
             TextField(
                 value = height,

@@ -38,7 +38,7 @@ private val client = OkHttpClient.Builder()
     .build()
 
 // URL base con posibilidad de cambiar fácilmente
-private const val BASE_URL = "http://172.16.184.108"
+private const val BASE_URL = "http://200.188.143.162:7019"
 
 // Configuración de Retrofit más detallada
 private val retrofit = Retrofit.Builder()
@@ -49,71 +49,76 @@ private val retrofit = Retrofit.Builder()
 
 // Interfaz de servicio con manejo de errores más robusto
 interface SiembraValoresService {
-    @POST("/Siembra_valores/A.php")
+    @POST("/siembra_valores/Leo.php")
     suspend fun getUsuario(
         @Query("endpoint") endPoint:String,
         @Query("correo") correo: String,
         @Query("contrasena") contrasena: String
     ): List<Usuario>
 
-    @GET("/rt-arboles-disponibles")
+    @GET("/siembra_valores/Leo.php")
     suspend fun getArboles(
         @Query("id") ID: Int
     ): List<Arboles>
 
-    @GET("/rt-informacion-arbol")
+    @GET("/siembra_valores/Leo.php")
     suspend fun getObtenerInformacion(
         @Query("id") ID: Int
     ): List<Arboles>
 
-    @POST("/rt-adoptar-arbol")
+    @POST("/siembra_valores/Leo.php")
     suspend fun adoptarArbol(
         @Query("ID_US") ID_US:Int,
         @Query("ID_ARBOL") ID_ARBOL:Int,
         @Query("ID_VALOR") ID_VALOR:String
     )
 
-    @GET("/rt-obtener-valores")
+    @GET("/siembra_valores/Leo.php")
     suspend fun getValores():List<Valores>
 
-    @GET("/rt-obtener-info-arbol")
+    @GET("/siembra_valores/Leo.php")
     suspend fun getInfoArbol(
-        @Query ("ID_ARBOL") ID_ARBOL: Int
+        @Query("endpoint") endPoint:String,
+        @Query ("id_arbol") ID_ARBOL: Int
     ):List<infoArbol>
 
-    @GET("/rt-mis-arboles")
+    @GET("/siembra_valores/Leo.php")
     suspend fun getMisArboles(
-        @Query ("ID_US") ID_US: Int
+        @Query("endpoint") endPoint:String,
+        @Query ("id_usuario") ID_US: Int
     ):List<misArbolesData>
 
-    @GET("/rt-obtener-servicios")
-    suspend fun getServicio():List<Servicios>
+    @GET("/siembra_valores/Leo.php")
+    suspend fun getServicio(
+        @Query("endpoint") endPoint: String
+    ):List<Servicios>
 
-    @GET("/rt-perfil-usuario")
+    @GET("/siembra_valores/Leo.php")
     suspend fun getPerfil(
         @Query ("ID_US") ID_US: Int
     ):List<Perfil>
 
-    @POST("/rt-agregar-notificaciones")
+    @POST("/siembra_valores/Leo.php")
     suspend fun agregarNotificaciones()
 
-    @GET ("/rt-notificaciones-alumno")
+    @GET ("/siembra_valores/Leo.php")
     suspend fun obtenerNotificaciones(
         @Query("ID_US") ID_US: Int
     ):List<Notificacion>
 
-    @POST("/rt-notificacion-leida")
+    @POST("/siembra_valores/Leo.php")
     suspend fun notificacionLeida(
         @Query("ID_NOT") ID_NOT:Int
     )
 
-    @GET("/rt-historial-servicios")
+    @GET("/siembra_valores/Leo.php")
     suspend fun getHistorialServicios(
+        @Query("endpoint") endPoint:String,
         @Query("ID_US") ID_US:Int,
-        @Query("ID_ARBOL") ID_ARBOL:Int
+        @Query("id_arbol") ID_ARBOL:Int
     ):List<HistorialServicios>
 
-    @POST("/rt-agregar-servicio")
+    @POST("/siembra_valores/Leo.php")
     suspend fun agregarServicioApp(
         @Query("ID_SERVICIO") servicioId:Int,
         @Query("COMENTARIOS") comentarios:String,

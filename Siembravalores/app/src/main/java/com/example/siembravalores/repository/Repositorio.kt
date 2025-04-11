@@ -30,13 +30,13 @@ class Repositorio {
         return api.getValores()
     }
     suspend fun misArboles(ID_US: Int):List<misArbolesData>{
-        return api.getMisArboles(ID_US)
+        return api.getMisArboles("mis_arboles",ID_US)
     }
     suspend fun misArbolesInfo(ID_ARBOL: Int):List<infoArbol>{
-        return api.getInfoArbol(ID_ARBOL)
+        return api.getInfoArbol("info_arbol",ID_ARBOL)
     }
     suspend fun servicios():List<Servicios>{
-        return api.getServicio()
+        return api.getServicio("servicios")
     }
     suspend fun perfil(ID_US: Int):List<Perfil>{
         return api.getPerfil(ID_US)
@@ -51,7 +51,7 @@ class Repositorio {
         return api.notificacionLeida(ID_NOT)
     }
     suspend fun obtenerHistorialServicios(ID_US: Int,ID_ARBOL:Int):List<HistorialServicios>{
-        return api.getHistorialServicios(ID_US,ID_ARBOL)
+        return api.getHistorialServicios("historial_servicios",ID_US,ID_ARBOL)
     }
     suspend fun guardarDetallesServicio(servicioId:Int,comentarios:String,altura:Float,circunferencia:Float,ID_US:Int,ID_ARBOL: Int){
         return api.agregarServicioApp(servicioId,comentarios,altura,circunferencia,ID_US,ID_ARBOL)

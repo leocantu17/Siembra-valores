@@ -28,13 +28,6 @@ fun NotificacionesScreen(
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        // Título
-        Text(
-            text = "Notificaciones",
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
 
         // Lista de notificaciones
         if (notificaciones.isEmpty()) {
