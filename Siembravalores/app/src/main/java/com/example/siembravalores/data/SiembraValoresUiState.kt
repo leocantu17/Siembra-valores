@@ -82,7 +82,8 @@ data class Perfil(
     val FECHA_NAC:String?=null,
     val FECHA_REGISTRO:String?=null,
     val ESCUELA:String?=null,
-    val CELULAR:String?=null
+    val CELULAR:String?=null,
+    val TIPO: String?=null
 )
 
 @Serializable

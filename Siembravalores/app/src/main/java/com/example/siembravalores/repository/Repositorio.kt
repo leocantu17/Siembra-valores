@@ -39,7 +39,7 @@ class Repositorio {
         return api.getServicio("servicios")
     }
     suspend fun perfil(ID_US: Int):List<Perfil>{
-        return api.getPerfil(ID_US)
+        return api.getPerfil("ver_perfil_usuario",ID_US)
     }
     suspend fun agregarNot(){
         return api.agregarNotificaciones()
@@ -54,7 +54,7 @@ class Repositorio {
         return api.getHistorialServicios("historial_servicios",ID_US,ID_ARBOL)
     }
     suspend fun guardarDetallesServicio(servicioId:Int,comentarios:String,altura:Float,circunferencia:Float,ID_US:Int,ID_ARBOL: Int){
-        return api.agregarServicioApp(servicioId,comentarios,altura,circunferencia,ID_US,ID_ARBOL)
+        return api.agregarServicioApp("servicio_agregar",servicioId,comentarios,altura,circunferencia,ID_US,ID_ARBOL)
     }
 
 

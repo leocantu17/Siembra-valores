@@ -310,8 +310,9 @@ class SiembraValoresViewModel(private val repository:Repositorio=Repositorio()):
                     ID_ARBOL=uiState.value.id_Arbol
                 )
             } catch (e: Exception) {
-                // Manejo de errores
-                println("Error al guardar detalles del servicio: ${e.message}")
+                _uiState.value=_uiState.value.copy(
+                    error="Error al actualizar: ${e.message}",
+                    )
             }
         }
     }

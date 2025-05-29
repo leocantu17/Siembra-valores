@@ -95,7 +95,8 @@ interface SiembraValoresService {
 
     @GET("/siembra_valores/Leo.php")
     suspend fun getPerfil(
-        @Query ("ID_US") ID_US: Int
+        @Query("endpoint") endPoint: String,
+        @Query ("id_us") ID_US: Int
     ):List<Perfil>
 
     @POST("/siembra_valores/Leo.php")
@@ -120,12 +121,13 @@ interface SiembraValoresService {
 
     @POST("/siembra_valores/Leo.php")
     suspend fun agregarServicioApp(
-        @Query("ID_SERVICIO") servicioId:Int,
-        @Query("COMENTARIOS") comentarios:String,
+        @Query("endpoint") endPoint: String,
+        @Query("id_servicio") servicioId:Int,
+        @Query("comentarios") comentarios:String,
         @Query("ALTURA") altura:Float,
         @Query("CIRCUNFERENCIA") circunferencia:Float,
         @Query("ID_US") ID_US: Int,
-        @Query("ID_ARBOL") ID_ARBOL: Int
+        @Query("id_arbol") ID_ARBOL: Int
     )
 }
 

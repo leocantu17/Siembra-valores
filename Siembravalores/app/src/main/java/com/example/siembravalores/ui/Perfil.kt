@@ -105,8 +105,8 @@ fun PerfilScreen(
                 value = perfil?.CELULAR ?: "No disponible"
             )
             ProfileInfo(
-                label = "Escuela:",
-                value = perfil?.ESCUELA ?: "No disponible"
+                label = "Sesión:",
+                value = perfil?.TIPO ?: "No disponible"
             )
 
             Spacer(modifier = Modifier.weight(1f))
