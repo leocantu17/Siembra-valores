@@ -1,12 +1,10 @@
 package com.example.siembravalores.network
 
-import com.example.siembravalores.data.Arboles
 import com.example.siembravalores.data.HistorialServicios
 import com.example.siembravalores.data.Notificacion
 import com.example.siembravalores.data.Perfil
 import com.example.siembravalores.data.Servicios
 import com.example.siembravalores.data.Usuario
-import com.example.siembravalores.data.Valores
 import com.example.siembravalores.data.infoArbol
 import com.example.siembravalores.data.misArbolesData
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
@@ -14,9 +12,13 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import kotlinx.serialization.json.Json
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.http.Field
 import retrofit2.http.GET
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.Part
 import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
 
@@ -56,25 +58,10 @@ interface SiembraValoresService {
         @Query("contrasena") contrasena: String
     ): List<Usuario>
 
-    @GET("/siembra_valores/Leo.php")
-    suspend fun getArboles(
-        @Query("id") ID: Int
-    ): List<Arboles>
-
-    @GET("/siembra_valores/Leo.php")
-    suspend fun getObtenerInformacion(
-        @Query("id") ID: Int
-    ): List<Arboles>
-
-    @POST("/siembra_valores/Leo.php")
-    suspend fun adoptarArbol(
-        @Query("ID_US") ID_US:Int,
-        @Query("ID_ARBOL") ID_ARBOL:Int,
-        @Query("ID_VALOR") ID_VALOR:String
+    @POST("/siembra_valores/RecuperarContra.php")
+    suspend fun recuperarContrasena(
+        @Query("correo") correo: String
     )
-
-    @GET("/siembra_valores/Leo.php")
-    suspend fun getValores():List<Valores>
 
     @GET("/siembra_valores/Leo.php")
     suspend fun getInfoArbol(
@@ -129,6 +116,20 @@ interface SiembraValoresService {
         @Query("ID_US") ID_US: Int,
         @Query("id_arbol") ID_ARBOL: Int
     )
+
+    @Multipart
+    @POST("/siembra_valores/Medicion.php")
+    suspend fun agregarServicioMedicionApp(
+        @Part("id_servicio") servicioId: RequestBody,
+        @Part("comentarios") comentarios: RequestBody,
+        @Part("ALTURA") altura: RequestBody,
+        @Part("CIRCUNFERENCIA") circunferencia: RequestBody,
+        @Part("ID_US") ID_US: RequestBody,
+        @Part("id_arbol") ID_ARBOL: RequestBody,
+        @Part imagen: MultipartBody.Part
+    )
+
+
 }
 
 // Objeto singleton para acceder al servicio

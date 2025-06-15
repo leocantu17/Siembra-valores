@@ -1,5 +1,6 @@
 package com.example.siembravalores.ui
 
+import android.graphics.Bitmap
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -13,6 +14,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import android.util.Base64
+import java.io.ByteArrayOutputStream
 
 class SiembraValoresViewModel(private val repository:Repositorio=Repositorio()):ViewModel() {
     private val _uiState= MutableStateFlow(SiembraValoresUiState())
@@ -22,8 +25,7 @@ class SiembraValoresViewModel(private val repository:Repositorio=Repositorio()):
         private set
     var contrasena by mutableStateOf("")
         private set
-    var nombreArbol by mutableStateOf("")
-        private set
+
     var seguir by mutableStateOf(true)
         private set
 
@@ -33,6 +35,13 @@ class SiembraValoresViewModel(private val repository:Repositorio=Repositorio()):
             currentState.copy(correo=correoUsuario)
         }
     }
+    fun updateCorreoRec(correoUsuarioRecuperacion:String){
+        correo=correoUsuarioRecuperacion
+        _uiState.update { currentState->
+            currentState.copy(correoRecuperacion = correoUsuarioRecuperacion)
+        }
+    }
+
     fun updateContrasena(contrasenaUsuario:String){
         contrasena=contrasenaUsuario
         _uiState.update { currentState->
@@ -43,19 +52,19 @@ class SiembraValoresViewModel(private val repository:Repositorio=Repositorio()):
 //        notificacionesPeriodicas()
 //        notificacionesAlumno()
 //    }
-
-
-
-
-
-
-
-    fun updateNombreArbol(nombre:String){
-        nombreArbol=nombre
-        _uiState.update { currentState->
-            currentState.copy(nombreArbol = nombre)
+fun RecuperarContrasena(correoRecuperacion:String){
+    viewModelScope.launch {
+        try {
+            repository.recuperarContrasena(correoRecuperacion)
+        }catch (e: Exception) {
+            _uiState.value = uiState.value.copy(
+                autenticado = false,
+                error = e.localizedMessage ?: "Error de autenticación"
+            )
         }
     }
+}
+
     fun autenticarUsuario(correo: String, contrasena: String) {
         viewModelScope.launch {
             try {
@@ -64,7 +73,6 @@ class SiembraValoresViewModel(private val repository:Repositorio=Repositorio()):
                 if (usuarios.isNotEmpty()) {
                     val primerId = usuarios.first().ID_US
                     _uiState.value = uiState.value.copy(
-                            usuario = usuarios,
                             id_Us = primerId,
                             autenticado = true,
                             error = "Encontre algo"
@@ -93,116 +101,9 @@ class SiembraValoresViewModel(private val repository:Repositorio=Repositorio()):
     }
 
 
-     fun upadteArbolValue(id:String,name:String){
-         _uiState.update { currentState ->
-             val updatedArboles = currentState.arboles.map { arbol ->
-                 // Update the first (or only) tree's value
-                 if (arbol == currentState.arboles.first()) {
-                     arbol.copy(
-                         ID_VALOR = id,
-                         NOMBRE_VALOR = name
-                     )
-                 } else {
-                     arbol
-                 }
-             }
-
-             currentState.copy(arboles = updatedArboles)
-         }
-     }
-
-
     fun setServicio(id: Int){
         _uiState.update{currentState->
-            currentState.copy(ID_SERVICIO=id)
-        }
-    }
-    fun valores(){
-        viewModelScope.launch {
-            _uiState.value = _uiState.value.copy(isLoading = true) // Activar estado de carga
-            try{
-                val valores=repository.obtenerValores()
-                _uiState.value=uiState.value.copy(
-                    isLoading = false,
-                    valores = valores
-                )
-            }catch (e: Exception) {
-                // En caso de error, actualizar la UI con el mensaje de error
-                _uiState.value = _uiState.value.copy(
-                    isLoading = false, // Desactivar estado de carga
-                    error = "Error al cargar los valores: ${e.message}"
-                )
-            }
-        }
-    }
-    fun arbolesDisponibles() {
-        viewModelScope.launch {
-            _uiState.value = _uiState.value.copy(isLoading = true) // Activar estado de carga
-
-            try {
-                val response = repository.obtenerArboles(uiState.value.id_Us)
-                if(response.isEmpty()){
-                    _uiState.value=_uiState.value.copy(
-                        error = "No hay árboles disponibles en tu zona",
-                        isLoading = false
-                    )
-                }else{
-                    // Si la respuesta es exitosa, actualizar la UI con los datos
-                    _uiState.value = _uiState.value.copy(
-                        arboles = response,
-                        isLoading = false, // Desactivar estado de carga
-                        error = "" // Limpiar el mensaje de error
-                    )
-                }
-
-            } catch (e: Exception) {
-                // En caso de error, actualizar la UI con el mensaje de error
-                _uiState.value = _uiState.value.copy(
-                    isLoading = false, // Desactivar estado de carga
-                    error = "Error al cargar los árboles: ${e.message}"
-                )
-            }
-        }
-    }
-    fun InformacionArbol(){
-        viewModelScope.launch {
-            try {
-                val response=repository.obtenerInfoArbol(uiState.value.id_Arbol)
-                _uiState.value=_uiState.value.copy(
-                    arboles = response,
-                    error = ""
-                )
-            }catch (e:Exception){
-                _uiState.value=_uiState.value.copy(
-                    error = "Error ${e.message}"
-                )
-            }
-        }
-    }
-    fun AdoptarArbol() {
-        viewModelScope.launch {
-            try {
-                // Obtener el ID_VALOR del primer árbol (o del árbol seleccionado)
-                val idValor = uiState.value.arboles.mapNotNull { it.ID_VALOR }.firstOrNull()
-
-                // Usar idValor si existe
-                idValor?.let { valor ->
-                    val repository = repository.adoptarArbol(
-                        uiState.value.id_Us,
-                        uiState.value.id_Arbol,
-                        valor  // Pasar el ID_VALOR al método de adopción
-                    )
-                } ?: run {
-                    // Manejar el caso cuando no hay ID_VALOR
-                    _uiState.value = _uiState.value.copy(
-                        error = "No se encontró un valor de árbol válido"
-                    )
-                }
-            } catch (e: Exception) {
-                _uiState.value = _uiState.value.copy(
-                    error = "Error ${e.message}"
-                )
-            }
+            currentState.copy(id_servicio=id)
         }
     }
     fun misArboles(id:Int){
@@ -292,30 +193,67 @@ class SiembraValoresViewModel(private val repository:Repositorio=Repositorio()):
             }
         }
     }
-    fun agregarServicioDetalles(
 
+    fun agregarServicioDetalles(
         comentarios: String,
         altura: Float,
-        circunferencia: Float
+        circunferencia: Float,
+        imagenBitmap: Bitmap?
     ) {
+        val servicioId = uiState.value.id_servicio
+        val idUsuario = uiState.value.id_Us
+        val idArbol = uiState.value.id_Arbol
+
         viewModelScope.launch {
             try {
-                // Lógica para guardar los detalles del servicio
-                repository.guardarDetallesServicio(
-                    servicioId = uiState.value.ID_SERVICIO,
-                    comentarios = comentarios,
-                    altura = altura,
-                    circunferencia = circunferencia,
-                    ID_US=uiState.value.id_Us,
-                    ID_ARBOL=uiState.value.id_Arbol
-                )
-            } catch (e: Exception) {
-                _uiState.value=_uiState.value.copy(
-                    error="Error al actualizar: ${e.message}",
+                if (servicioId == 4) {
+                    // Validaciones
+                    if (imagenBitmap == null) {
+                        _uiState.value = _uiState.value.copy(error = "Debes tomar una foto del árbol.")
+                        return@launch
+                    }
+                    if (altura <= 0f || circunferencia <= 0f) {
+                        _uiState.value = _uiState.value.copy(error = "Altura y circunferencia deben ser mayores a 0.")
+                        return@launch
+                    }
+
+                    // Convertir a Base64
+                    val base64 = bitmapToBase64(imagenBitmap)
+
+                    // Enviar a repositorio
+                    repository.guardarDetallesMedicionServicio(
+                        servicioId = servicioId,
+                        comentarios = comentarios,
+                        altura = altura,
+                        circunferencia = circunferencia,
+                        ID_US = idUsuario,
+                        ID_ARBOL = idArbol,
+                        bitmap = imagenBitmap // o base64 si es necesario
                     )
+
+                    _uiState.value = _uiState.value.copy(error = null)
+
+                } else {
+                    // Servicio sin medición
+                    repository.guardarDetallesServicio(
+                        servicioId = servicioId,
+                        comentarios = comentarios,
+                        altura = altura,
+                        circunferencia = circunferencia,
+                        ID_US = idUsuario,
+                        ID_ARBOL = idArbol
+                    )
+                    _uiState.value = _uiState.value.copy(error = null)
+                }
+            } catch (e: Exception) {
+                _uiState.value = _uiState.value.copy(
+                    error = "Error al guardar servicio: ${e.message}"
+                )
             }
         }
     }
+
+
     fun notificacionesAlumno() {
         if(uiState.value.autenticado){
             viewModelScope.launch {
@@ -353,6 +291,11 @@ class SiembraValoresViewModel(private val repository:Repositorio=Repositorio()):
         }
 
     }
-
+    fun bitmapToBase64(bitmap: Bitmap): String {
+        val outputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, outputStream)
+        val byteArray = outputStream.toByteArray()
+        return Base64.encodeToString(byteArray, Base64.NO_WRAP) // NO_WRAP evita problemas de salto de línea
+    }
 
 }

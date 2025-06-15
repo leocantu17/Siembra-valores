@@ -1,51 +1,30 @@
 package com.example.siembravalores.data
 
 import kotlinx.serialization.Serializable
-import java.time.format.DateTimeFormatter
 
 data class SiembraValoresUiState(
-    val correo:String="",
-    val contrasena:String="",
-    val autenticado: Boolean=false,
-    val error:String="",
-    val id_Arbol:Int=0,
-    val id_Us:Int=0,
-    val usuario:List<Usuario> = emptyList(),
-    val arboles:List<Arboles> = emptyList(),
-    val valores:List<Valores> = emptyList(),
-    val misArboles:List<misArbolesData> = emptyList(),
-    val arbolesInfo:List<infoArbol> = emptyList(),
+    val correo: String ="",
+    val contrasena: String ="",
+    val autenticado: Boolean =false,
+    val error: String? ="",
+    val id_Arbol: Int =0,
+    val id_Us: Int =0,
+    val usuario: List<Usuario> = emptyList(),
+    val misArboles: List<misArbolesData> = emptyList(),
+    val arbolesInfo: List<infoArbol> = emptyList(),
     val servicios: List<Servicios> = emptyList(),
-    val perfil:List<Perfil> = emptyList(),
-    val notificaciones:List<Notificacion> = emptyList(),
-    val historialServicios:List<HistorialServicios> = emptyList(),
-    val nombreArbol:String="",
-    val ID_SERVICIO:Int=0,
-    var isLoading:Boolean=false
+    val perfil: List<Perfil> = emptyList(),
+    val notificaciones: List<Notificacion> = emptyList(),
+    val historialServicios: List<HistorialServicios> = emptyList(),
+    val id_servicio: Int =0,
+    var isLoading: Boolean =false,
+    val correoRecuperacion: String = ""
 )
 
 @Serializable
 data class Usuario (
     val ID_US: Int,
     val NOMBRE: String? = null
-)
-
-@Serializable
-data class Arboles(
-    val ID:Int,
-    val DESCRIPCION:String?=null,
-    val NOMBRE:String?=null,
-    val FECHA_PLANTADO:String?=null,
-    val CARACTERISTICA:String?=null,
-    val COLONIA:String?=null,
-    val ID_VALOR:String?=null,
-    val NOMBRE_VALOR:String?=null
-)
-
-@Serializable
-data class Valores(
-    val ID_VALOR:String?=null,
-    val VALOR:String?=null
 )
 
 @Serializable

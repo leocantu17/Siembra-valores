@@ -2,7 +2,6 @@ package com.example.siembravalores.ui
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,16 +9,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -31,11 +28,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -44,45 +36,25 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.siembravalores.R
-import com.example.siembravalores.SiembraValoresScreen
-import com.example.siembravalores.data.SiembraValoresUiState
 import com.example.siembravalores.ui.theme.AccentGreen
 import com.example.siembravalores.ui.theme.DarkGreen
 import com.example.siembravalores.ui.theme.LightGreen
 import com.example.siembravalores.ui.theme.MediumGreen
 import com.example.siembravalores.ui.theme.SoftWhite
 import com.example.siembravalores.ui.theme.VeryLightGreen
-import androidx.compose.material3.IconButton
-import androidx.compose.ui.res.painterResource
-
 
 @Composable
-fun LoginScreen(
+fun RecuperarContrasenaScreen(
     correo: String,
-    contrasena: String,
-    uiState: SiembraValoresUiState,
     onValueChangeCorreo: (String) -> Unit,
-    onValueChangeContrasena: (String) -> Unit,
-    onNextButtonClicked: () -> Unit,
+    onRecuperarButtonClicked: () -> Unit,
     navController: NavController
 ) {
-
-    LaunchedEffect(key1 = uiState.autenticado) {
-        if (uiState.autenticado) {
-            navController.navigate(SiembraValoresScreen.misArboles.name) {
-                popUpTo(SiembraValoresScreen.Login.name) { inclusive = true }
-            }
-        }
-    }
-
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -96,6 +68,7 @@ fun LoginScreen(
                 )
             )
     ) {
+
         Column(
             modifier = Modifier
                 .statusBarsPadding()
@@ -106,7 +79,7 @@ fun LoginScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            // Welcome header with tree emoji
+            // Header card with key emoji
             Card(
                 modifier = Modifier
                     .padding(bottom = 32.dp)
@@ -120,19 +93,19 @@ fun LoginScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = "🌳",
+                        text = "🔑",
                         fontSize = 48.sp,
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
                     Text(
-                        text = stringResource(id = R.string.registro),
+                        text = "Recuperar Contraseña",
                         style = MaterialTheme.typography.headlineMedium,
                         fontWeight = FontWeight.Bold,
                         color = DarkGreen,
                         textAlign = TextAlign.Center
                     )
                     Text(
-                        text = "¡Cuida tu árbol especial! 🌱",
+                        text = "¡No te preocupes, te ayudamos! 🌱",
                         style = MaterialTheme.typography.bodyLarge,
                         color = MediumGreen,
                         textAlign = TextAlign.Center,
@@ -141,7 +114,7 @@ fun LoginScreen(
                 }
             }
 
-            // Login form card
+            // Recovery form card
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(24.dp),
@@ -153,6 +126,14 @@ fun LoginScreen(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(20.dp)
                 ) {
+                    Text(
+                        text = "Escribe tu correo electrónico y te enviaremos las instrucciones para recuperar tu contraseña.",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MediumGreen,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(bottom = 8.dp)
+                    )
+
                     EditTextField(
                         value = correo,
                         onValueChange = onValueChangeCorreo,
@@ -161,29 +142,8 @@ fun LoginScreen(
                         modifier = Modifier.fillMaxWidth()
                     )
 
-                    EditPasswordField(
-                        value = contrasena,
-                        onValueChange = onValueChangeContrasena,
-                        ruta = R.string.contrasena,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-
-                    // Forgot password link
-                    Text(
-                        text = "¿Olvidaste tu contraseña? 🔑",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MediumGreen,
-                        textAlign = TextAlign.Center,
-                        textDecoration = TextDecoration.Underline,
-                        modifier = Modifier
-                            .clickable {
-                                navController.navigate(SiembraValoresScreen.RecuperarContrasena.name)
-                            }
-                            .padding(vertical = 4.dp)
-                    )
-
                     Button(
-                        onClick = onNextButtonClicked,
+                        onClick = onRecuperarButtonClicked,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(top = 8.dp)
@@ -195,7 +155,7 @@ fun LoginScreen(
                         elevation = ButtonDefaults.buttonElevation(defaultElevation = 6.dp)
                     ) {
                         Text(
-                            text = "🌟 " + stringResource(id = R.string.enviar) + " 🌟",
+                            text = "Enviar",
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier.padding(vertical = 8.dp)
@@ -204,9 +164,9 @@ fun LoginScreen(
                 }
             }
 
-            // Fun footer message
+            // Help message
             Text(
-                text = "¡Vamos a plantar semillas de valores! 🌱💚",
+                text = "¡Pronto podrás volver a cuidar tu árbol! 🌳💚",
                 style = MaterialTheme.typography.bodyMedium,
                 color = AccentGreen,
                 textAlign = TextAlign.Center,
@@ -215,102 +175,4 @@ fun LoginScreen(
             )
         }
     }
-}
-
-@Composable
-fun EditTextField(
-    value: String,
-    onValueChange: (String) -> Unit,
-    @StringRes ruta: Int,
-    icon: androidx.compose.ui.graphics.vector.ImageVector,
-    modifier: Modifier = Modifier
-) {
-    OutlinedTextField(
-        value = value,
-        onValueChange = onValueChange,
-        singleLine = true,
-        label = {
-            Text(
-                stringResource(ruta),
-                color = MediumGreen,
-                fontWeight = FontWeight.Medium
-            )
-        },
-        leadingIcon = {
-            Icon(
-                imageVector = icon,
-                contentDescription = null,
-                tint = MediumGreen
-            )
-        },
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-        colors = OutlinedTextFieldDefaults.colors(
-            focusedBorderColor = DarkGreen,
-            unfocusedBorderColor = LightGreen,
-            focusedLabelColor = DarkGreen,
-            unfocusedLabelColor = MediumGreen,
-            cursorColor = DarkGreen,
-            focusedTextColor = AccentGreen,
-            unfocusedTextColor = AccentGreen
-        ),
-        shape = RoundedCornerShape(16.dp),
-        modifier = modifier
-    )
-}
-@Composable
-fun EditPasswordField(
-    value: String,
-    onValueChange: (String) -> Unit,
-    @StringRes ruta: Int,
-    modifier: Modifier = Modifier
-) {
-    var passwordVisible by remember { mutableStateOf(false) }
-
-    OutlinedTextField(
-        value = value,
-        onValueChange = onValueChange,
-        singleLine = true,
-        label = {
-            Text(
-                stringResource(ruta),
-                color = MediumGreen,
-                fontWeight = FontWeight.Medium
-            )
-        },
-        leadingIcon = {
-            Icon(
-                imageVector = Icons.Default.Lock,
-                contentDescription = null,
-                tint = MediumGreen
-            )
-        },
-        trailingIcon = {
-            val image = if (passwordVisible)
-                R.drawable.visible
-            else R.drawable.invisible
-
-            val description = if (passwordVisible) "Ocultar contraseña" else "Mostrar contraseña"
-
-            IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                Icon(
-                    painter = painterResource(id = image),
-                    contentDescription = description,
-                    tint = MediumGreen
-                )
-            }
-        },
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-        visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-        colors = OutlinedTextFieldDefaults.colors(
-            focusedBorderColor = DarkGreen,
-            unfocusedBorderColor = LightGreen,
-            focusedLabelColor = DarkGreen,
-            unfocusedLabelColor = MediumGreen,
-            cursorColor = DarkGreen,
-            focusedTextColor = AccentGreen,
-            unfocusedTextColor = AccentGreen
-        ),
-        shape = RoundedCornerShape(16.dp),
-        modifier = modifier
-    )
 }
