@@ -16,4 +16,8 @@
     <string name="notificaciones">Notificaciones</string>
     <string name="nombreArbol">Nombre árbol</string>
     <string name="recuperar">Recuperar contraseña</string>
+    <string name="nueva_contrasena">Nueva contraseña</string>
+    <string name="confirmar_contrasena">Confirmar contraseña</string>
+    <string name="codigo_verificacion">Código de verificación</string>
+    <string name="cambiar_contrasena">Cambiar contraseña</string>
 </resources>

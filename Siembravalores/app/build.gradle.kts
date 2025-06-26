@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.siembravalores"
+    namespace = "com.siembravalores"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.siembravalores"
+        applicationId = "com.siembravalores"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

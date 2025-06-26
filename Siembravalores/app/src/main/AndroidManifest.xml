@@ -19,7 +19,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SiembraValores"
         tools:targetApi="31"
-        android:screenOrientation="portrait">
+        >
         <!-- rest of your application content remains the same -->
         <provider
             android:name="androidx.core.content.FileProvider"
